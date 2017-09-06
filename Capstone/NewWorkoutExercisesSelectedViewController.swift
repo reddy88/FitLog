@@ -10,7 +10,7 @@ import UIKit
 
 class NewWorkoutExercisesSelectedViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: - IBOutlets
     
     @IBOutlet weak var tableView: UITableView!
     

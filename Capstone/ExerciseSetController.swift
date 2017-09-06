@@ -12,12 +12,19 @@ class ExerciseSetController {
     
     // MARK: - Class Properties
     
-    static let shared = WorkoutExerciseController()
+    static let shared = ExerciseSetController()
+    static let setComplete = Notification.Name(rawValue:"setComplete")
+    static let setNotComplete = Notification.Name(rawValue: "setNotComplete")
     
     // MARK: - Methods
     
-    func createSet() {
-        
+    func toggleIsComplete(set: ExerciseSet) {
+        set.isCompleted = !set.isCompleted
+        if set.isCompleted {
+            NotificationCenter.default.post(name: ExerciseSetController.setComplete, object: nil)
+        } else {
+            NotificationCenter.default.post(name: ExerciseSetController.setNotComplete, object: nil)
+        }
     }
     
 }

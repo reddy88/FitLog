@@ -8,8 +8,8 @@
 
 import Foundation
 
-enum DayOfWeek {
-    case sunday
+enum DayOfWeek: Int {
+    case sunday = 1
     case monday
     case tuesday
     case wednesday

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WorkoutExercise: Exercise {
+class WorkoutExercise: Exercise, Cloneable {
     
     // MARK: - Properties
     
@@ -22,6 +22,15 @@ class WorkoutExercise: Exercise {
         self.restTime = 0
         
         super.init(name: exercise.name, category: exercise.category, id: exercise.id)
+    }
+    
+    // MARK: - Cloneable
+    
+    required init(instance: WorkoutExercise) {
+        self.sets = instance.sets.copy()
+        self.restTime = instance.restTime
+        
+        super.init(name: instance.name, category: instance.category, id: instance.id)
     }
     
 }

@@ -17,6 +17,7 @@ class WorkoutController {
     // MARK: - Instance Properties
     
     var workouts: [Workout] = []
+    var todaysWorkouts: [Workout] = []
     var selectedWorkout: Workout?
     
     // MARK: - Methods
@@ -31,4 +32,19 @@ class WorkoutController {
         
         workouts.append(newWorkout)
     }
+    
+    func getWorkoutsScheduledForToday() {
+        var todaysWorkouts: [Workout] = []
+        
+        for workout in workouts {
+            for day in workout.workoutDays {
+                if day.rawValue == Calendar.current.component(.weekday, from: Date()) {
+                    todaysWorkouts.append(workout)
+                }
+            }
+        }
+        
+        self.todaysWorkouts = todaysWorkouts
+    }
+    
 }
