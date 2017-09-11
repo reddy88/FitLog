@@ -24,6 +24,7 @@
 		749D70601F55E02300F5C742 /* WorkoutExerciseAddSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749D705F1F55E02300F5C742 /* WorkoutExerciseAddSetTableViewCell.swift */; };
 		749D70621F55F9EE00F5C742 /* ExerciseAddSetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749D70611F55F9EE00F5C742 /* ExerciseAddSetCollectionViewCell.swift */; };
 		749D70641F5627A200F5C742 /* ExerciseSetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749D70631F5627A200F5C742 /* ExerciseSetController.swift */; };
+		74C408CC1F672E620004EEF6 /* exercises.json in Resources */ = {isa = PBXBuildFile; fileRef = 74C408CB1F672E620004EEF6 /* exercises.json */; };
 		74DFED3B1F586F4F00FD6775 /* WorkoutsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DFED3A1F586F4F00FD6775 /* WorkoutsListViewController.swift */; };
 		74DFED3D1F586FB800FD6775 /* WorkoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DFED3C1F586FB800FD6775 /* WorkoutController.swift */; };
 		74F17BBB1F54689A0041D8B8 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F17BBA1F54689A0041D8B8 /* DayOfWeek.swift */; };
@@ -67,6 +68,7 @@
 		749D705F1F55E02300F5C742 /* WorkoutExerciseAddSetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutExerciseAddSetTableViewCell.swift; sourceTree = "<group>"; };
 		749D70611F55F9EE00F5C742 /* ExerciseAddSetCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseAddSetCollectionViewCell.swift; sourceTree = "<group>"; };
 		749D70631F5627A200F5C742 /* ExerciseSetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseSetController.swift; sourceTree = "<group>"; };
+		74C408CB1F672E620004EEF6 /* exercises.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exercises.json; sourceTree = "<group>"; };
 		74DFED3A1F586F4F00FD6775 /* WorkoutsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutsListViewController.swift; sourceTree = "<group>"; };
 		74DFED3C1F586FB800FD6775 /* WorkoutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutController.swift; sourceTree = "<group>"; };
 		74F17BBA1F54689A0041D8B8 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				747CFA1F1F5CC2E300CCEA13 /* WorkoutCompletedController.swift */,
 				74DFED3C1F586FB800FD6775 /* WorkoutController.swift */,
 				74FD891E1F521EC10063A4F6 /* ExerciseController.swift */,
+				74C408CB1F672E620004EEF6 /* exercises.json */,
 				749D705D1F55D18300F5C742 /* WorkoutExerciseController.swift */,
 				749D70631F5627A200F5C742 /* ExerciseSetController.swift */,
 				74FB879D1F5F747D0029C24D /* WorkoutTimer.swift */,
@@ -302,6 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74FD89111F521CD70063A4F6 /* LaunchScreen.storyboard in Resources */,
+				74C408CC1F672E620004EEF6 /* exercises.json in Resources */,
 				74FD890E1F521CD70063A4F6 /* Assets.xcassets in Resources */,
 				74FD890C1F521CD70063A4F6 /* Main.storyboard in Resources */,
 			);

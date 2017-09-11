@@ -28,33 +28,52 @@ class ExerciseController {
     var exercisesShoulders: [Exercise] = []
     var exercisesCalves: [Exercise] = []
     
-//    var exerciseCategories: [Int: String] = [:]
+    //    var exerciseCategories: [Int: String] = [:]
     
     
-    let baseURL = "https://wger.de/api/v2/"
+    // let baseURL = "https://wger.de/api/v2/"
     
     // MARK: - Methods
     
+    //    func getExercises(completion:  (() -> Void)? = nil) {
+    //        guard let baseURL = URL(string: baseURL)?.appendingPathComponent("exercise") else { completion?(); return }
+    //
+    //        let statusQueryItem = URLQueryItem(name: "status", value: "2")
+    //        let languageQueryItem = URLQueryItem(name: "language", value: "2")
+    //        let limitQueryItem = URLQueryItem(name: "limit", value: "250")
+    //
+    //        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
+    //        components?.queryItems = [statusQueryItem, languageQueryItem, limitQueryItem]
+    //
+    //        guard let endpointURL = components?.url else { completion?(); return }
+    //
+    //        let dataTask = URLSession.shared.dataTask(with: endpointURL) { (data, _, error) in
+    //            if let error = error {
+    //                print(error.localizedDescription)
+    //                completion?()
+    //                return
+    //            }
+    //
+    //            guard let data = data,
+    //                let jsonDictionary = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any],
+    //                let resultsArray = jsonDictionary["results"] as? [[String: Any]] else { completion?(); return }
+    //
+    //            let exercises = resultsArray.flatMap { Exercise(dictionary: $0) }
+    //
+    //            self.exercises = exercises
+    //            self.setCategoryForExercises()
+    //            self.exercisesToDisplay = self.exercisesArms
+    //            completion?()
+    //        }
+    //        dataTask.resume()
+    //    }
+    
     func getExercises(completion:  (() -> Void)? = nil) {
-        guard let baseURL = URL(string: baseURL)?.appendingPathComponent("exercise") else { completion?(); return }
-        
-        let statusQueryItem = URLQueryItem(name: "status", value: "2")
-        let languageQueryItem = URLQueryItem(name: "language", value: "2")
-        let limitQueryItem = URLQueryItem(name: "limit", value: "250")
-        
-        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
-        components?.queryItems = [statusQueryItem, languageQueryItem, limitQueryItem]
-        
-        guard let endpointURL = components?.url else { completion?(); return }
-        
-        let dataTask = URLSession.shared.dataTask(with: endpointURL) { (data, _, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                completion?()
-                return
-            }
+        if let path = Bundle.main.path(forResource: "exercises", ofType: "json") {
+            let pathURL = URL(fileURLWithPath: path)
+            let jsonData = try? Data(contentsOf: pathURL)
             
-            guard let data = data,
+            guard let data = jsonData,
                 let jsonDictionary = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any],
                 let resultsArray = jsonDictionary["results"] as? [[String: Any]] else { completion?(); return }
             
@@ -65,36 +84,35 @@ class ExerciseController {
             self.exercisesToDisplay = self.exercisesArms
             completion?()
         }
-        dataTask.resume()
     }
     
-//    func getExerciseCategories(completion: (() -> Void)? = nil) {
-//        guard let endpointURL = URL(string: baseURL)?.appendingPathComponent("exercisecategory") else { completion?(); return }
-//        
-//        let dataTask = URLSession.shared.dataTask(with: endpointURL) { (data, _, error) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                completion?()
-//                return
-//            }
-//            
-//            guard let data = data,
-//                let jsonDictionary = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any],
-//                let resultsArray = jsonDictionary["results"] as? [[String: Any]] else { completion?(); return }
-//            
-//            var exerciseCategories: [Int: String] = [:]
-//            for exerciseDictionary in resultsArray {
-//                guard let key = exerciseDictionary["id"] as? Int,
-//                    let value = exerciseDictionary["name"] as? String else { completion?(); return }
-//                
-//                exerciseCategories[key] = value
-//            }
-//            
-//            self.exerciseCategories = exerciseCategories
-//            completion?()
-//        }
-//        dataTask.resume()
-//    }
+    //    func getExerciseCategories(completion: (() -> Void)? = nil) {
+    //        guard let endpointURL = URL(string: baseURL)?.appendingPathComponent("exercisecategory") else { completion?(); return }
+    //
+    //        let dataTask = URLSession.shared.dataTask(with: endpointURL) { (data, _, error) in
+    //            if let error = error {
+    //                print(error.localizedDescription)
+    //                completion?()
+    //                return
+    //            }
+    //
+    //            guard let data = data,
+    //                let jsonDictionary = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any],
+    //                let resultsArray = jsonDictionary["results"] as? [[String: Any]] else { completion?(); return }
+    //
+    //            var exerciseCategories: [Int: String] = [:]
+    //            for exerciseDictionary in resultsArray {
+    //                guard let key = exerciseDictionary["id"] as? Int,
+    //                    let value = exerciseDictionary["name"] as? String else { completion?(); return }
+    //
+    //                exerciseCategories[key] = value
+    //            }
+    //
+    //            self.exerciseCategories = exerciseCategories
+    //            completion?()
+    //        }
+    //        dataTask.resume()
+    //    }
     
     func setCategoryForExercises() {
         for exercise in exercises {
@@ -114,7 +132,7 @@ class ExerciseController {
             case 13:
                 exercisesShoulders.append(exercise)
             default:
-                 break
+                break
             }
         }
     }
