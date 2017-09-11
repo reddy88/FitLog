@@ -47,6 +47,8 @@ class ExerciseAddSetCollectionViewCell: UICollectionViewCell {
     
 }
 
+// MARK: - UITextFieldDelegate
+
 extension ExerciseAddSetCollectionViewCell: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {

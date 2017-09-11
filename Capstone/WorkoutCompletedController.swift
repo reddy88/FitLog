@@ -26,4 +26,8 @@ class WorkoutCompletedController {
         self.pendingWorkoutCompleted = pendingWorkoutCompleted
     }
     
+    func addWorkoutCompleted(_ pendingWorkoutCompleted: WorkoutCompleted) {
+        workoutsCompleted.append(pendingWorkoutCompleted)
+    }
+    
 }

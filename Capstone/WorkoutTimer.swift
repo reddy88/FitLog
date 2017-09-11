@@ -10,14 +10,22 @@ import Foundation
 
 class WorkoutTimer {
     
+    // MARK: - Class Properties
+    
     static let shared = WorkoutTimer()
+    static let workoutTimerFired = Notification.Name(rawValue:"workoutTimerFired")
+    
+    // MARK: - Instance Properties
     
     var timer: Timer
-    static let workoutTimerFired = Notification.Name(rawValue:"workoutTimerFired")
+    
+    // MARK: - Initializers
     
     init() {
         timer = Timer()
     }
+    
+    // MARK: - Methods
     
     func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)

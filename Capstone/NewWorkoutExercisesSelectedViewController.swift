@@ -81,6 +81,8 @@ extension NewWorkoutExercisesSelectedViewController: UITableViewDataSource, UITa
     
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+
 extension NewWorkoutExercisesSelectedViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

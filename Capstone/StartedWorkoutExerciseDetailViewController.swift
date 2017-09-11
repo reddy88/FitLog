@@ -94,7 +94,6 @@ class StartedWorkoutExerciseDetailViewController: UIViewController {
         UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveLinear, animations: {
             self.restTimeProgressView.setProgress(Float(restTime) / Float(setRestTime), animated: true)
         }, completion: nil)
-        //restTimeProgressView.progress =
         restTimerLabel.text = "\(restTime)"
         self.restTime = restTime
     }
@@ -133,6 +132,8 @@ extension StartedWorkoutExerciseDetailViewController: UITableViewDataSource, UIT
     }
     
 }
+
+// MARK: - StartedWorkoutSetDetailTableViewCellDelegate
 
 extension StartedWorkoutExerciseDetailViewController: StartedWorkoutSetDetailTableViewCellDelegate {
     func setCompleteButtonTapped(cell: StartedWorkoutSetDetailTableViewCell) {

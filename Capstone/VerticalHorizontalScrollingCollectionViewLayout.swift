@@ -9,18 +9,19 @@
 import UIKit
 
 class VerticalHorizontalScrollingCollectionViewLayout: UICollectionViewLayout {
+    
+    // MARK: - Properties
 
+    var cellAttrsDictionary = Dictionary<IndexPath, UICollectionViewLayoutAttributes>()
+    var contentSize = CGSize.zero
     let cell_width = 179.5
     let cell_height = 39.0
-    
-    var cellAttrsDictionary = Dictionary<IndexPath, UICollectionViewLayoutAttributes>()
-    
-    var contentSize = CGSize.zero
     
     override var collectionViewContentSize: CGSize {
         return contentSize
     }
     
+    // MARK: - Methods
     
     override func prepare() {
         guard let collectionView = collectionView else { return }
@@ -54,7 +55,6 @@ class VerticalHorizontalScrollingCollectionViewLayout: UICollectionViewLayout {
         
     }
     
-    
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cellAttrsDictionary[indexPath]
     }
@@ -73,4 +73,5 @@ class VerticalHorizontalScrollingCollectionViewLayout: UICollectionViewLayout {
         // Return list of elements.
         return attributesInRect
     }
+    
 }

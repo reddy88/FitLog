@@ -29,8 +29,8 @@ class HomeViewController: UIViewController {
             })
             
         } else {
-            homeViewLeadingConstraint.constant = 100
-            homeViewTrailingConstraint.constant = -100
+            homeViewLeadingConstraint.constant = 300
+            homeViewTrailingConstraint.constant = -300
             
             UIView.animate(withDuration: 0.3, animations: { 
                 self.view.layoutIfNeeded()
@@ -43,6 +43,8 @@ class HomeViewController: UIViewController {
     // MARK: - Properties
     
     var isMenuOpened = false
+    let menuItems = ["Workouts"]
+    let menuItemImages = [#imageLiteral(resourceName: "dumbell icon")]
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -57,6 +59,8 @@ class HomeViewController: UIViewController {
         
         menuTableView.delegate = self
         menuTableView.dataSource = self
+        menuTableView.tableFooterView = UIView()
+        
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -94,7 +98,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 1 {
-            return 1
+            return menuItems.count
         }
         if section == 0 {
             return WorkoutCompletedController.shared.workoutsCompleted.count * 2
@@ -104,17 +108,17 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView.tag == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "menuItemCell", for: indexPath)
-            cell.textLabel?.text = "Workouts"
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "menuItemCell", for: indexPath) as? MenuItemTableViewCell else { return MenuItemTableViewCell() }
+            cell.menuItemLabel.text = menuItems[indexPath.row]
+            cell.menuItemImageView.image = menuItemImages[indexPath.row]
             return cell
         }
-        
+
         if indexPath.section == 0 {
             if indexPath.row % 2 == 0 {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "titleWithDateCell", for: indexPath) as? WorkoutTitleWithDateTableViewCell else { return WorkoutTitleWithDateTableViewCell() }
                 cell.updateViews(workout: WorkoutCompletedController.shared.workoutsCompleted[indexPath.row / 2].actualWorkout, dateAsString: dateFormatter.string(from: WorkoutCompletedController.shared.workoutsCompleted[indexPath.row / 2].date))
                 return cell
-                
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "exercisesCell", for: indexPath) as? WorkoutExercisesTableViewCell else { return WorkoutExercisesTableViewCell() }
                 cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row / 2)

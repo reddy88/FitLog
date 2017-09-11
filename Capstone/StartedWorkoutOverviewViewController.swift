@@ -18,7 +18,6 @@ class StartedWorkoutOverviewViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func cancelBarButtonItemTapped(_ sender: Any) {
-//        timer.invalidate()
         WorkoutTimer.shared.stopTimer()
         dismiss(animated: true, completion: nil)
     }
@@ -36,9 +35,8 @@ class StartedWorkoutOverviewViewController: UIViewController {
         }
 
         pendingWorkoutCompleted.time = -pendingWorkoutCompleted.date.timeIntervalSinceNow
-        WorkoutCompletedController.shared.workoutsCompleted.append(pendingWorkoutCompleted)
+        WorkoutCompletedController.shared.addWorkoutCompleted(pendingWorkoutCompleted)
         WorkoutCompletedController.shared.pendingWorkoutCompleted = nil
-//        timer.invalidate()
         WorkoutTimer.shared.stopTimer()
         dismiss(animated: true, completion: nil)
     }
@@ -46,7 +44,6 @@ class StartedWorkoutOverviewViewController: UIViewController {
     // MARK: - Properties
     
     var startTime: Date?
-//    var timer = Timer()
     
     let dateComponentsFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
@@ -71,8 +68,6 @@ class StartedWorkoutOverviewViewController: UIViewController {
         
         title = WorkoutController.shared.selectedWorkout?.name?.uppercased()
         
-//        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimerLabel), userInfo: nil, repeats: true)
-//        timer.tolerance = 0.5
         startTime = WorkoutCompletedController.shared.pendingWorkoutCompleted?.date
         NotificationCenter.default.addObserver(self, selector: #selector(updateTimerLabel), name: WorkoutTimer.workoutTimerFired, object: nil)
         WorkoutTimer.shared.startTimer()

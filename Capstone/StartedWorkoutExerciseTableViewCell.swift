@@ -11,6 +11,7 @@ import UIKit
 class StartedWorkoutExerciseTableViewCell: UITableViewCell {
 
     // MARK: - IBOutlets
+    
     @IBOutlet weak var workoutExerciseNameLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!

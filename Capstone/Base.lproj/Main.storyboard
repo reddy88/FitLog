@@ -707,14 +707,37 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="menuItemCell" id="Uw5-oC-jFk">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="menuItemCell" id="Uw5-oC-jFk" customClass="MenuItemTableViewCell" customModule="Capstone" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uw5-oC-jFk" id="4Zb-TN-lBf">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pWe-QT-FA2">
+                                                    <rect key="frame" x="30" y="9.5" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="CDt-7D-X4p"/>
+                                                        <constraint firstAttribute="width" constant="25" id="sCw-Hb-vFG"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Menu Item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EAv-Nq-xrp">
+                                                    <rect key="frame" x="70" y="11" width="81" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="EAv-Nq-xrp" firstAttribute="leading" secondItem="pWe-QT-FA2" secondAttribute="trailing" constant="15" id="Sgg-Fp-kEk"/>
+                                                <constraint firstItem="EAv-Nq-xrp" firstAttribute="centerY" secondItem="4Zb-TN-lBf" secondAttribute="centerY" id="fOh-S4-dSU"/>
+                                                <constraint firstItem="pWe-QT-FA2" firstAttribute="leading" secondItem="4Zb-TN-lBf" secondAttribute="leading" constant="30" id="rDZ-7m-HjE"/>
+                                                <constraint firstItem="pWe-QT-FA2" firstAttribute="centerY" secondItem="4Zb-TN-lBf" secondAttribute="centerY" id="zxE-T9-tWP"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="menuItemImageView" destination="pWe-QT-FA2" id="WbF-KZ-C5B"/>
+                                            <outlet property="menuItemLabel" destination="EAv-Nq-xrp" id="2gT-p2-5Mf"/>
                                             <segue destination="EGN-JV-nT5" kind="show" id="srH-zz-HAB"/>
                                         </connections>
                                     </tableViewCell>
@@ -1418,7 +1441,7 @@
         <image name="red" width="28" height="28"/>
         <image name="set_incomplete_checkmark" width="33" height="32"/>
         <image name="set_minus" width="24" height="2"/>
-        <image name="set_number_weight" width="136" height="29"/>
+        <image name="set_number_weight" width="137" height="29"/>
         <image name="timer" width="32" height="37"/>
         <image name="white" width="32" height="32"/>
     </resources>
