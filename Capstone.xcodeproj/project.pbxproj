@@ -24,7 +24,6 @@
 		749D70601F55E02300F5C742 /* WorkoutExerciseAddSetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749D705F1F55E02300F5C742 /* WorkoutExerciseAddSetTableViewCell.swift */; };
 		749D70621F55F9EE00F5C742 /* ExerciseAddSetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749D70611F55F9EE00F5C742 /* ExerciseAddSetCollectionViewCell.swift */; };
 		749D70641F5627A200F5C742 /* ExerciseSetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749D70631F5627A200F5C742 /* ExerciseSetController.swift */; };
-		74C408C61F66DA2C0004EEF6 /* Capstone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74C408C41F66DA2C0004EEF6 /* Capstone.xcdatamodeld */; };
 		74DFED3B1F586F4F00FD6775 /* WorkoutsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DFED3A1F586F4F00FD6775 /* WorkoutsListViewController.swift */; };
 		74DFED3D1F586FB800FD6775 /* WorkoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DFED3C1F586FB800FD6775 /* WorkoutController.swift */; };
 		74F17BBB1F54689A0041D8B8 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F17BBA1F54689A0041D8B8 /* DayOfWeek.swift */; };
@@ -68,7 +67,6 @@
 		749D705F1F55E02300F5C742 /* WorkoutExerciseAddSetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutExerciseAddSetTableViewCell.swift; sourceTree = "<group>"; };
 		749D70611F55F9EE00F5C742 /* ExerciseAddSetCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseAddSetCollectionViewCell.swift; sourceTree = "<group>"; };
 		749D70631F5627A200F5C742 /* ExerciseSetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseSetController.swift; sourceTree = "<group>"; };
-		74C408C51F66DA2C0004EEF6 /* Capstone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Capstone.xcdatamodel; sourceTree = "<group>"; };
 		74DFED3A1F586F4F00FD6775 /* WorkoutsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutsListViewController.swift; sourceTree = "<group>"; };
 		74DFED3C1F586FB800FD6775 /* WorkoutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutController.swift; sourceTree = "<group>"; };
 		74F17BBA1F54689A0041D8B8 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 		74FD891A1F521D2D0063A4F6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				74C408C41F66DA2C0004EEF6 /* Capstone.xcdatamodeld */,
 				747CFA161F5C5E2C00CCEA13 /* WorkoutCompleted.swift */,
 				749AD5521F53483800EB481E /* Workout.swift */,
 				74F17BBA1F54689A0041D8B8 /* DayOfWeek.swift */,
@@ -326,7 +323,6 @@
 				74F17BBB1F54689A0041D8B8 /* DayOfWeek.swift in Sources */,
 				747CFA191F5C74F800CCEA13 /* HomeViewController.swift in Sources */,
 				749D705A1F55B6EC00F5C742 /* NewWorkoutPageViewController.swift in Sources */,
-				74C408C61F66DA2C0004EEF6 /* Capstone.xcdatamodeld in Sources */,
 				747CFA2A1F5DD41E00CCEA13 /* StartedWorkoutSetDetailTableViewCell.swift in Sources */,
 				747CFA281F5DC7D600CCEA13 /* StartedWorkoutExerciseDetailViewController.swift in Sources */,
 				747CFA241F5CCE4100CCEA13 /* StartedWorkoutExerciseTableViewCell.swift in Sources */,
@@ -523,19 +519,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		74C408C41F66DA2C0004EEF6 /* Capstone.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				74C408C51F66DA2C0004EEF6 /* Capstone.xcdatamodel */,
-			);
-			currentVersion = 74C408C51F66DA2C0004EEF6 /* Capstone.xcdatamodel */;
-			path = Capstone.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 74FD88FB1F521CD60063A4F6 /* Project object */;
 }
