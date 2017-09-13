@@ -27,4 +27,9 @@ class ExerciseSetController {
         }
     }
     
+    func deleteExerciseSet(_ exerciseSet: ExerciseSet) {
+        exerciseSet.managedObjectContext?.delete(exerciseSet)
+        FetchedResultsController.shared.save()
+    }
+    
 }

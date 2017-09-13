@@ -21,7 +21,7 @@ class WorkoutCompletedController {
     
     // MARK: - Methods
     
-    func createPendingWorkoutCompleted(plannedWorkout: Workout, actualWorkout: Workout, date: Date = Date()) {
+    func createPendingWorkoutCompleted(plannedWorkout: Workout, actualWorkout: ActualWorkout, date: Date = Date()) {
         let pendingWorkoutCompleted = WorkoutCompleted(plannedWorkout: plannedWorkout, actualWorkout: actualWorkout, date: date)
         self.pendingWorkoutCompleted = pendingWorkoutCompleted
     }

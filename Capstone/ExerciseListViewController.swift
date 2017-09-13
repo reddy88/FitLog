@@ -61,6 +61,7 @@ class ExerciseListViewController: UIViewController {
         }
         
         WorkoutController.shared.selectedWorkout?.exercises = NSOrderedSet(array: workoutExercises)
+        FetchedResultsController.shared.save()
         ExerciseController.shared.exercisesSelected = exercisesSelected
         exercisesSelected = []
 

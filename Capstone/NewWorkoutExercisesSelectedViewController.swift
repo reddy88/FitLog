@@ -13,6 +13,7 @@ class NewWorkoutExercisesSelectedViewController: UIViewController {
     // MARK: - IBOutlets
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     
     // MARK: - Lifecycle
     
@@ -28,6 +29,10 @@ class NewWorkoutExercisesSelectedViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: WorkoutExerciseAddSetTableViewCell.addedSetNotification, object: nil)
         
         tableView.tableFooterView = UIView()
+    
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        nc.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +45,45 @@ class NewWorkoutExercisesSelectedViewController: UIViewController {
     
     func reloadTableView() {
         tableView.reloadData()
+    }
+    
+    func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+            let animationCurveRaw = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? Int,
+            let animationCurve = UIViewAnimationCurve(rawValue: animationCurveRaw),
+            let keyboardFrame = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        view.layoutIfNeeded()
+        tableViewBottomConstraint.constant = keyboardFrame.size.height
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(animationDuration)
+        UIView.setAnimationCurve(animationCurve)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        
+        view.layoutIfNeeded()
+        
+        UIView.commitAnimations()
+    }
+    
+    func keyboardWillHide(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+            let animationCurveRaw = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? Int,
+            let animationCurve = UIViewAnimationCurve(rawValue: animationCurveRaw) else { return }
+        
+        view.layoutIfNeeded()
+        tableViewBottomConstraint.constant = 0
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(animationDuration)
+        UIView.setAnimationCurve(animationCurve)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        
+        view.layoutIfNeeded()
+        
+        UIView.commitAnimations()
     }
 
 }

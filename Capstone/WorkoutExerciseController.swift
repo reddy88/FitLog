@@ -23,4 +23,9 @@ class WorkoutExerciseController {
         }
     }
     
+    func removeWorkoutExercise(_ workoutExercise: WorkoutExercise) {
+        workoutExercise.managedObjectContext?.delete(workoutExercise)
+        FetchedResultsController.shared.save()
+    }
+    
 }

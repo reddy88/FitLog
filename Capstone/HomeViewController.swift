@@ -45,6 +45,7 @@ class HomeViewController: UIViewController {
     var isMenuOpened = false
     let menuItems = ["Workouts"]
     let menuItemImages = [#imageLiteral(resourceName: "dumbell icon")]
+    var shouldScrollToBottom = true
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -63,6 +64,7 @@ class HomeViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,6 +72,20 @@ class HomeViewController: UIViewController {
         
         WorkoutController.shared.getWorkoutsScheduledForToday()
         tableView.reloadData()
+        
+        if shouldScrollToBottom {
+            shouldScrollToBottom = !shouldScrollToBottom
+            
+            if WorkoutController.shared.todaysWorkouts.count == 0 {
+                if WorkoutCompletedController.shared.workoutsCompleted.count != 0 {
+                    let indexPath = IndexPath(row: WorkoutCompletedController.shared.workoutsCompleted.count - 1, section: 0)
+                    tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+                }
+            } else {
+                let indexPath = IndexPath(row: WorkoutController.shared.todaysWorkouts.count - 1, section: 1)
+                tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
+        }
     }
     
     // MARK: - Navigation
@@ -78,9 +94,9 @@ class HomeViewController: UIViewController {
         if segue.identifier == "startWorkout" {
             guard let row = tableView.indexPathForSelectedRow?.row else { return }
             
-            let actualWorkout = WorkoutController.shared.copyWorkout(WorkoutController.shared.todaysWorkouts[row])
+            let actualWorkout = ActualWorkoutController.shared.copyWorkout(WorkoutController.shared.todaysWorkouts[row])
             WorkoutCompletedController.shared.createPendingWorkoutCompleted(plannedWorkout: WorkoutController.shared.todaysWorkouts[row], actualWorkout: actualWorkout)
-            WorkoutController.shared.selectedWorkout = actualWorkout
+            ActualWorkoutController.shared.selectedWorkout = actualWorkout
         }
     }
 

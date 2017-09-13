@@ -19,7 +19,7 @@ class WorkoutTitleWithDateTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     
-    func updateViews(workout: Workout, dateAsString: String) {
+    func updateViews(workout: ActualWorkout, dateAsString: String) {
         dateLabel.text = dateAsString
         workoutNameLabel.text = workout.name?.uppercased()
         if workout.tagColor != TagColor.noTag.rawValue {

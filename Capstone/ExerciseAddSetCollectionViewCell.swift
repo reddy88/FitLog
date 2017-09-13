@@ -55,9 +55,11 @@ extension ExerciseAddSetCollectionViewCell: UITextFieldDelegate {
         if textField == setWeightTextField {
             guard let text = setWeightTextField.text, !text.isEmpty, let weight = Int(text) else { return }
             exerciseSet?.weight = Int16(weight)
+            FetchedResultsController.shared.save()
         } else if textField == setRepsTextField {
             guard let text = setRepsTextField.text, !text.isEmpty, let reps = Int(text) else { return }
             exerciseSet?.reps = Int16(reps)
+            FetchedResultsController.shared.save()
         }
     }
 }

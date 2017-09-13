@@ -42,6 +42,7 @@ class StartedWorkoutOverviewViewController: UIViewController {
         WorkoutCompletedController.shared.addWorkoutCompleted(pendingWorkoutCompleted)
         WorkoutCompletedController.shared.pendingWorkoutCompleted = nil
         WorkoutTimer.shared.stopTimer()
+        FetchedResultsController.shared.save()
         dismiss(animated: true, completion: nil)
     }
     
@@ -70,7 +71,7 @@ class StartedWorkoutOverviewViewController: UIViewController {
         
         tableView.tableFooterView = UIView()
         
-        title = WorkoutController.shared.selectedWorkout?.name?.uppercased()
+        title = ActualWorkoutController.shared.selectedWorkout?.name?.uppercased()
         
         startTime = WorkoutCompletedController.shared.pendingWorkoutCompleted?.date as Date?
         NotificationCenter.default.addObserver(self, selector: #selector(updateTimerLabel), name: WorkoutTimer.workoutTimerFired, object: nil)
@@ -89,7 +90,7 @@ class StartedWorkoutOverviewViewController: UIViewController {
         if segue.identifier == "toExerciseDetail" {
             guard let row = tableView.indexPathForSelectedRow?.row else { return }
             let startedWorkoutExerciseDetailViewController = segue.destination as? StartedWorkoutExerciseDetailViewController
-            startedWorkoutExerciseDetailViewController?.workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[row] as? WorkoutExercise
+            startedWorkoutExerciseDetailViewController?.workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[row] as? WorkoutExercise
             startedWorkoutExerciseDetailViewController?.timerStringFromOverview = timerLabel.text
         }
     }
@@ -115,12 +116,12 @@ class StartedWorkoutOverviewViewController: UIViewController {
 extension StartedWorkoutOverviewViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return WorkoutController.shared.selectedWorkout?.exercises?.count ?? 0
+        return ActualWorkoutController.shared.selectedWorkout?.exercises?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "startedWorkoutExerciseCell", for: indexPath) as? StartedWorkoutExerciseTableViewCell {
-            let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[indexPath.row] as? WorkoutExercise
+            let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[indexPath.row] as? WorkoutExercise
             cell.workoutExercise = workoutExercise
             cell.frame = tableView.bounds
             cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
@@ -139,7 +140,7 @@ extension StartedWorkoutOverviewViewController: UITableViewDataSource, UITableVi
 extension StartedWorkoutOverviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
+        if let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
             return workoutExercise.sets?.count ?? 0
         }
         return 0
@@ -147,7 +148,7 @@ extension StartedWorkoutOverviewViewController: UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "startedExerciseSetCell", for: indexPath) as? StartedWorkoutSetCollectionViewCell else { return StartedWorkoutSetCollectionViewCell() }
-        if let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
+        if let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
             cell.exerciseSet = workoutExercise.sets?[indexPath.item] as? ExerciseSet
         }
         cell.exerciseSetNumber = indexPath.item + 1

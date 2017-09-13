@@ -95,6 +95,7 @@ extension NewWorkoutViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "workoutNameCell", for: indexPath) as? WorkoutNameTableViewCell else { return WorkoutNameTableViewCell() }
+            cell.workoutNameTextField.delegate = cell
             cell.workoutNameTextField.text = WorkoutController.shared.selectedWorkout?.name
             return cell
         case 1:
@@ -131,8 +132,9 @@ extension NewWorkoutViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if var workoutExercises = WorkoutController.shared.selectedWorkout?.exercises?.array as? [WorkoutExercise] {
-                workoutExercises.remove(at: indexPath.row)
+                let removedWorkoutExercise = workoutExercises.remove(at: indexPath.row)
                 WorkoutController.shared.selectedWorkout?.exercises = NSOrderedSet(array: workoutExercises)
+                WorkoutExerciseController.shared.removeWorkoutExercise(removedWorkoutExercise)
             }
             
             ExerciseController.shared.exercisesSelected[indexPath.row].isSelected = false

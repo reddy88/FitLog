@@ -13,7 +13,7 @@ extension WorkoutCompleted {
     
     // MARK: - Initializers
     
-    convenience init(plannedWorkout: Workout, actualWorkout: Workout, date: Date, context: NSManagedObjectContext = CoreDataStack.context) {
+    convenience init(plannedWorkout: Workout, actualWorkout: ActualWorkout, date: Date, context: NSManagedObjectContext = CoreDataStack.context) {
         self.init(context: context)
         
         self.plannedWorkout = plannedWorkout

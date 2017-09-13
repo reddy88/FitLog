@@ -38,8 +38,9 @@ class WorkoutExerciseAddSetTableViewCell: UITableViewCell {
     @IBAction func removeSetButtonTapped(_ sender: Any) {
         guard var sets = workoutExercise?.sets?.array as? [ExerciseSet] else { return }
         if !sets.isEmpty {
-            sets.removeLast()
+            let removedExerciseSet = sets.removeLast()
             workoutExercise?.sets = NSOrderedSet(array: sets)
+            ExerciseSetController.shared.deleteExerciseSet(removedExerciseSet)
             collectionView.reloadData()
             NotificationCenter.default.post(name: WorkoutExerciseAddSetTableViewCell.addedSetNotification, object: nil)
         }
@@ -64,6 +65,7 @@ class WorkoutExerciseAddSetTableViewCell: UITableViewCell {
         let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
             guard let text = alertController.textFields?.first?.text, !text.isEmpty, let seconds = Int(text) else { return }
             self.workoutExercise?.restTime = Int16(seconds)
+            FetchedResultsController.shared.save()
         }
         
         alertController.addAction(cancelAction)

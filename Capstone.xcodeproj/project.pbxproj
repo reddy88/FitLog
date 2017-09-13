@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		744CFD781F6836BD00C3679E /* Capstone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 744CFD761F6836BD00C3679E /* Capstone.xcdatamodeld */; };
 		744CFD7A1F6837F300C3679E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744CFD791F6837F300C3679E /* CoreDataStack.swift */; };
+		7464F71D1F698000006C48B8 /* FetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7464F71C1F698000006C48B8 /* FetchedResultsController.swift */; };
+		7464F71F1F6988B6006C48B8 /* TagColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7464F71E1F6988B6006C48B8 /* TagColor.swift */; };
+		7464F7211F69891E006C48B8 /* ActualWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7464F7201F69891E006C48B8 /* ActualWorkout.swift */; };
+		7464F7231F698ADE006C48B8 /* ActualWorkoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7464F7221F698ADE006C48B8 /* ActualWorkoutController.swift */; };
 		747CFA171F5C5E2C00CCEA13 /* WorkoutCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFA161F5C5E2C00CCEA13 /* WorkoutCompleted.swift */; };
 		747CFA191F5C74F800CCEA13 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFA181F5C74F800CCEA13 /* HomeViewController.swift */; };
 		747CFA1B1F5C81D700CCEA13 /* WorkoutTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFA1A1F5C81D700CCEA13 /* WorkoutTitleTableViewCell.swift */; };
@@ -55,6 +59,10 @@
 /* Begin PBXFileReference section */
 		744CFD771F6836BD00C3679E /* Capstone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Capstone.xcdatamodel; sourceTree = "<group>"; };
 		744CFD791F6837F300C3679E /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		7464F71C1F698000006C48B8 /* FetchedResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsController.swift; sourceTree = "<group>"; };
+		7464F71E1F6988B6006C48B8 /* TagColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagColor.swift; sourceTree = "<group>"; };
+		7464F7201F69891E006C48B8 /* ActualWorkout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActualWorkout.swift; sourceTree = "<group>"; };
+		7464F7221F698ADE006C48B8 /* ActualWorkoutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActualWorkoutController.swift; sourceTree = "<group>"; };
 		747CFA161F5C5E2C00CCEA13 /* WorkoutCompleted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutCompleted.swift; sourceTree = "<group>"; };
 		747CFA181F5C74F800CCEA13 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		747CFA1A1F5C81D700CCEA13 /* WorkoutTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -206,10 +214,12 @@
 				744CFD791F6837F300C3679E /* CoreDataStack.swift */,
 				747CFA161F5C5E2C00CCEA13 /* WorkoutCompleted.swift */,
 				749AD5521F53483800EB481E /* Workout.swift */,
+				7464F7201F69891E006C48B8 /* ActualWorkout.swift */,
 				74F17BBA1F54689A0041D8B8 /* DayOfWeek.swift */,
 				74FD891B1F521D470063A4F6 /* Exercise.swift */,
 				74F17BBC1F5479810041D8B8 /* WorkoutExercise.swift */,
 				74F17BBE1F547A650041D8B8 /* ExerciseSet.swift */,
+				7464F71E1F6988B6006C48B8 /* TagColor.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -217,8 +227,10 @@
 		74FD891D1F521E960063A4F6 /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7464F71C1F698000006C48B8 /* FetchedResultsController.swift */,
 				747CFA1F1F5CC2E300CCEA13 /* WorkoutCompletedController.swift */,
 				74DFED3C1F586FB800FD6775 /* WorkoutController.swift */,
+				7464F7221F698ADE006C48B8 /* ActualWorkoutController.swift */,
 				74FD891E1F521EC10063A4F6 /* ExerciseController.swift */,
 				74C408CB1F672E620004EEF6 /* exercises.json */,
 				749D705D1F55D18300F5C742 /* WorkoutExerciseController.swift */,
@@ -342,11 +354,13 @@
 				74FB87901F5F022F0029C24D /* ExerciseSetsCollectionViewCell.swift in Sources */,
 				74DFED3D1F586FB800FD6775 /* WorkoutController.swift in Sources */,
 				74DFED3B1F586F4F00FD6775 /* WorkoutsListViewController.swift in Sources */,
+				7464F71D1F698000006C48B8 /* FetchedResultsController.swift in Sources */,
 				74FB87A01F6072F60029C24D /* MenuItemTableViewCell.swift in Sources */,
 				74F17BC41F54865A0041D8B8 /* DaysOfWeekTableViewCell.swift in Sources */,
 				749AD5531F53483800EB481E /* Workout.swift in Sources */,
 				74FB87961F5F18AA0029C24D /* VerticalHorizontalScrollingCollectionViewLayout.swift in Sources */,
 				74F17BC91F54A9220041D8B8 /* ColorTagTableViewCell.swift in Sources */,
+				7464F71F1F6988B6006C48B8 /* TagColor.swift in Sources */,
 				747CFA221F5CC97000CCEA13 /* StartedWorkoutOverviewViewController.swift in Sources */,
 				749D70621F55F9EE00F5C742 /* ExerciseAddSetCollectionViewCell.swift in Sources */,
 				74FB87921F5F0E3F0029C24D /* ExerciseSetsSectionNameCollectionViewCell.swift in Sources */,
@@ -361,6 +375,8 @@
 				74FB879E1F5F747D0029C24D /* WorkoutTimer.swift in Sources */,
 				74FD891C1F521D470063A4F6 /* Exercise.swift in Sources */,
 				747CFA261F5CD20600CCEA13 /* StartedWorkoutSetCollectionViewCell.swift in Sources */,
+				7464F7211F69891E006C48B8 /* ActualWorkout.swift in Sources */,
+				7464F7231F698ADE006C48B8 /* ActualWorkoutController.swift in Sources */,
 				747CFA201F5CC2E300CCEA13 /* WorkoutCompletedController.swift in Sources */,
 				747CFA1E1F5CBC7900CCEA13 /* Cloneable.swift in Sources */,
 			);

@@ -50,7 +50,7 @@ class WorkoutsListViewController: UIViewController {
         } else if segue.identifier == "newWorkout" {
             let newWorkoutPageViewController = segue.destination as? NewWorkoutPageViewController
             newWorkoutPageViewController?.isNewWorkout = true
-            WorkoutController.shared.createWorkout(name: nil, tagColor: .noTag, workoutDays: [], exercises: [])
+            WorkoutController.shared.createWorkout(name: "", tagColor: .noTag, workoutDays: [], exercises: [])
             let workout = WorkoutController.shared.workouts.last
             WorkoutController.shared.selectedWorkout = workout
         }

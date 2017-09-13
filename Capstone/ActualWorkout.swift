@@ -1,15 +1,15 @@
 //
-//  Workout.swift
+//  ActualWorkout.swift
 //  Capstone
 //
-//  Created by Mithun Reddy on 8/27/17.
+//  Created by Mithun Reddy on 9/13/17.
 //  Copyright © 2017 Mithun Reddy. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import CoreData
 
-extension Workout {
+extension ActualWorkout {
     
     // MARK: - Initializers
     

@@ -13,6 +13,16 @@ class WorkoutNameTableViewCell: UITableViewCell {
     // MARK: - IBOutlets
     
     @IBOutlet weak var workoutNameTextField: UITextField!
+    
+}
 
+// MARK: - UITextFieldDelegate
+
+extension WorkoutNameTableViewCell: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
 }

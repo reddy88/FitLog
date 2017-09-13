@@ -42,7 +42,7 @@ class NewWorkoutPageViewController: UIViewController {
             guard let workout = WorkoutController.shared.selectedWorkout else { return }
             if isValidWorkout(workout: workout) {
                 emptyExercisesSelected()
-                
+                FetchedResultsController.shared.save()
                 navigationController?.popViewController(animated: true)
             } else {
                 return

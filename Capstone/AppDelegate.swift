@@ -18,6 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ExerciseController.shared.getExercises {
         }
         
+        
+        
+        if let workoutsCompleted = FetchedResultsController.shared.fetchedWorkoutCompletedController.fetchedObjects {
+            WorkoutCompletedController.shared.workoutsCompleted = workoutsCompleted
+        }
+        
+        if let workouts = FetchedResultsController.shared.fetchedWorkoutController.fetchedObjects {
+            WorkoutController.shared.workouts = workouts
+        }
+        
         return true
     }
     
