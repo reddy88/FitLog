@@ -19,8 +19,8 @@ class ExerciseSetsCollectionViewCell: UICollectionViewCell {
     // MARK: - Methods
     
     func updateViews(set: ExerciseSet) {
-        setWeightLabel.text = "\(set.weight ?? 0)"
-        setRepsLabel.text = "\(set.reps ?? 0)"
+        setWeightLabel.text = "\(set.weight)"
+        setRepsLabel.text = "\(set.reps)"
     }
     
 }

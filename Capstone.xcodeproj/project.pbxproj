@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		744CFD781F6836BD00C3679E /* Capstone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 744CFD761F6836BD00C3679E /* Capstone.xcdatamodeld */; };
+		744CFD7A1F6837F300C3679E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744CFD791F6837F300C3679E /* CoreDataStack.swift */; };
 		747CFA171F5C5E2C00CCEA13 /* WorkoutCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFA161F5C5E2C00CCEA13 /* WorkoutCompleted.swift */; };
 		747CFA191F5C74F800CCEA13 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFA181F5C74F800CCEA13 /* HomeViewController.swift */; };
 		747CFA1B1F5C81D700CCEA13 /* WorkoutTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFA1A1F5C81D700CCEA13 /* WorkoutTitleTableViewCell.swift */; };
@@ -51,6 +53,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		744CFD771F6836BD00C3679E /* Capstone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Capstone.xcdatamodel; sourceTree = "<group>"; };
+		744CFD791F6837F300C3679E /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		747CFA161F5C5E2C00CCEA13 /* WorkoutCompleted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutCompleted.swift; sourceTree = "<group>"; };
 		747CFA181F5C74F800CCEA13 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		747CFA1A1F5C81D700CCEA13 /* WorkoutTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 		74FD891A1F521D2D0063A4F6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				744CFD761F6836BD00C3679E /* Capstone.xcdatamodeld */,
+				744CFD791F6837F300C3679E /* CoreDataStack.swift */,
 				747CFA161F5C5E2C00CCEA13 /* WorkoutCompleted.swift */,
 				749AD5521F53483800EB481E /* Workout.swift */,
 				74F17BBA1F54689A0041D8B8 /* DayOfWeek.swift */,
@@ -324,10 +330,12 @@
 				74FD89221F52249C0063A4F6 /* ExerciseListViewController.swift in Sources */,
 				74FD89071F521CD60063A4F6 /* AppDelegate.swift in Sources */,
 				74FD891F1F521EC10063A4F6 /* ExerciseController.swift in Sources */,
+				744CFD7A1F6837F300C3679E /* CoreDataStack.swift in Sources */,
 				74F17BBB1F54689A0041D8B8 /* DayOfWeek.swift in Sources */,
 				747CFA191F5C74F800CCEA13 /* HomeViewController.swift in Sources */,
 				749D705A1F55B6EC00F5C742 /* NewWorkoutPageViewController.swift in Sources */,
 				747CFA2A1F5DD41E00CCEA13 /* StartedWorkoutSetDetailTableViewCell.swift in Sources */,
+				744CFD781F6836BD00C3679E /* Capstone.xcdatamodeld in Sources */,
 				747CFA281F5DC7D600CCEA13 /* StartedWorkoutExerciseDetailViewController.swift in Sources */,
 				747CFA241F5CCE4100CCEA13 /* StartedWorkoutExerciseTableViewCell.swift in Sources */,
 				749D705E1F55D18300F5C742 /* WorkoutExerciseController.swift in Sources */,
@@ -523,6 +531,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		744CFD761F6836BD00C3679E /* Capstone.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				744CFD771F6836BD00C3679E /* Capstone.xcdatamodel */,
+			);
+			currentVersion = 744CFD771F6836BD00C3679E /* Capstone.xcdatamodel */;
+			path = Capstone.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 74FD88FB1F521CD60063A4F6 /* Project object */;
 }

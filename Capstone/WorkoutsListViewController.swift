@@ -36,6 +36,17 @@ class WorkoutsListViewController: UIViewController {
             guard let index = tableView.indexPathForSelectedRow?.row else { return }
             let workout = WorkoutController.shared.workouts[index]
             WorkoutController.shared.selectedWorkout = workout
+            
+            if let selectedWorkoutExercises = workout.exercises?.array as? [WorkoutExercise] {
+                for workoutExercise in selectedWorkoutExercises {
+                    for exercise in ExerciseController.shared.exercises {
+                        if workoutExercise.id == exercise.id {
+                            ExerciseController.shared.exercisesSelected.append(exercise)
+                        }
+                    }
+                }
+            }
+            
         } else if segue.identifier == "newWorkout" {
             let newWorkoutPageViewController = segue.destination as? NewWorkoutPageViewController
             newWorkoutPageViewController?.isNewWorkout = true

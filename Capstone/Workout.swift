@@ -7,27 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
-class Workout: Cloneable {
-    
-    // MARK: - Properties
-    
-    var name: String? = nil
-    var tagColor: TagColor = .noTag
-    var workoutDays: [DayOfWeek] = []
-    var exercises: [WorkoutExercise] = []
+extension Workout {
     
     // MARK: - Initializers
     
-    init() {}
-    
-    // MARK: - Cloneable
-    
-    required init(instance: Workout) {
-        self.name = instance.name
-        self.tagColor = instance.tagColor
-        self.workoutDays = instance.workoutDays
-        self.exercises = instance.exercises.copy()
+    convenience init(name: String?, context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
+        
+        self.name = name
     }
     
 }

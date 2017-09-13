@@ -86,7 +86,7 @@ extension NewWorkoutViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 3 {
-            return WorkoutController.shared.selectedWorkout?.exercises.count ?? 0
+            return WorkoutController.shared.selectedWorkout?.exercises?.count ?? 0
         }
         return 1
     }
@@ -99,19 +99,22 @@ extension NewWorkoutViewController: UITableViewDataSource {
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "workoutColorTagCell", for: indexPath) as? ColorTagTableViewCell,
-                let workout = WorkoutController.shared.selectedWorkout else { return ColorTagTableViewCell() }
+                let tagColorRawValue = WorkoutController.shared.selectedWorkout?.tagColor, let tagColor = TagColor(rawValue: tagColorRawValue) else { return ColorTagTableViewCell() }
             cell.updateViews()
-            cell.setColorTag(colorTag: workout.tagColor)
+            
+            cell.setColorTag(colorTag: tagColor)
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "workoutDaysOfWeekCell", for: indexPath) as? DaysOfWeekTableViewCell,
                 let workout = WorkoutController.shared.selectedWorkout else { return DaysOfWeekTableViewCell() }
             cell.updateViews()
-            cell.setDaysSelected(daysSelected: workout.workoutDays)
+            cell.setDaysSelected(daysSelected: WorkoutController.shared.daysOfWeekConverterToArray(workout: workout))
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "workoutExercisesCell", for: indexPath)
-            cell.textLabel?.text = WorkoutController.shared.selectedWorkout?.exercises[indexPath.row].name
+            if let exercises = WorkoutController.shared.selectedWorkout?.exercises?.array as? [Exercise] {
+                cell.textLabel?.text = exercises[indexPath.row].name
+            }
             return cell
         default:
             return UITableViewCell()
@@ -127,7 +130,11 @@ extension NewWorkoutViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            WorkoutController.shared.selectedWorkout?.exercises.remove(at: indexPath.row)
+            if var workoutExercises = WorkoutController.shared.selectedWorkout?.exercises?.array as? [WorkoutExercise] {
+                workoutExercises.remove(at: indexPath.row)
+                WorkoutController.shared.selectedWorkout?.exercises = NSOrderedSet(array: workoutExercises)
+            }
+            
             ExerciseController.shared.exercisesSelected[indexPath.row].isSelected = false
             ExerciseController.shared.exercisesSelected.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)

@@ -7,22 +7,18 @@
 //
 
 import Foundation
+import CoreData
 
-class WorkoutCompleted {
-    
-    // MARK: - Properties
-    
-    let plannedWorkout: Workout
-    let actualWorkout: Workout
-    let date: Date
-    var time: TimeInterval
+extension WorkoutCompleted {
     
     // MARK: - Initializers
     
-    init(plannedWorkout: Workout, actualWorkout: Workout, date: Date) {
+    convenience init(plannedWorkout: Workout, actualWorkout: Workout, date: Date, context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
+        
         self.plannedWorkout = plannedWorkout
         self.actualWorkout = actualWorkout
-        self.date = date
+        self.date = date as NSDate
         self.time = 0
     }
     

@@ -30,8 +30,8 @@ class StartedWorkoutSetCollectionViewCell: UICollectionViewCell {
     func updateViews() {
         guard let exerciseSet = exerciseSet, let exerciseSetNumber = exerciseSetNumber else { return }
         setNumberLabel.text = "\(exerciseSetNumber)"
-        setWeightTextField.text = exerciseSet.weight != nil ? "\(exerciseSet.weight ?? 0)" : ""
-        setRepsTextField.text = exerciseSet.reps != nil ? "\(exerciseSet.reps ?? 0)" : ""
+        setWeightTextField.text = "\(exerciseSet.weight)"
+        setRepsTextField.text = "\(exerciseSet.reps)"
     }
     
 }

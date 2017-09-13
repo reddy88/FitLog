@@ -49,12 +49,12 @@ class NewWorkoutExercisesSelectedViewController: UIViewController {
 extension NewWorkoutExercisesSelectedViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return WorkoutController.shared.selectedWorkout?.exercises.count ?? 0
+        return WorkoutController.shared.selectedWorkout?.exercises?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "workoutExerciseCell", for: indexPath) as? WorkoutExerciseAddSetTableViewCell {
-            let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises[indexPath.row]
+            let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[indexPath.row] as? WorkoutExercise
             cell.workoutExercise = workoutExercise
 //            cell.collectionView.dataSource = cell
 //            cell.collectionView.delegate = cell
@@ -87,13 +87,18 @@ extension NewWorkoutExercisesSelectedViewController: UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //return WorkoutExerciseController.shared.exercisesSelected[collectionView.tag].sets.count
-        return WorkoutController.shared.selectedWorkout?.exercises[collectionView.tag].sets.count ?? 0
+        if let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
+            return workoutExercise.sets?.count ?? 0
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "exerciseSetCell", for: indexPath) as? ExerciseAddSetCollectionViewCell else { return ExerciseAddSetCollectionViewCell() }
         //cell.exerciseSet = WorkoutExerciseController.shared.exercisesSelected[collectionView.tag].sets[indexPath.item]
-        cell.exerciseSet = WorkoutController.shared.selectedWorkout?.exercises[collectionView.tag].sets[indexPath.item]
+        if let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise, let exerciseSet = workoutExercise.sets?[indexPath.item] as? ExerciseSet {
+            cell.exerciseSet = exerciseSet
+        }
         cell.exerciseSetNumber = indexPath.item + 1
 //        cell.updateViews(withExerciseSet: WorkoutExerciseController.shared.exercisesSelected[collectionView.tag].sets[indexPath.item], exerciseSetNumber: indexPath.item + 1)
         return cell

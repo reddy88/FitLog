@@ -22,8 +22,10 @@ class WorkoutTitleWithDateTableViewCell: UITableViewCell {
     func updateViews(workout: Workout, dateAsString: String) {
         dateLabel.text = dateAsString
         workoutNameLabel.text = workout.name?.uppercased()
-        if workout.tagColor != .noTag {
-            colorTagImageView.image = UIImage(named: "\(workout.tagColor.rawValue)")
+        if workout.tagColor != TagColor.noTag.rawValue {
+            if let tagColor = workout.tagColor {
+                colorTagImageView.image = UIImage(named: tagColor)
+            }
         }
     }
 

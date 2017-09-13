@@ -38,8 +38,8 @@ class ExerciseAddSetCollectionViewCell: UICollectionViewCell {
         setWeightTextField.attributedPlaceholder = NSAttributedString(string: "lbs", attributes:attributes)
         setWeightTextField.tintColor = UIColor.clear
         
-        setWeightTextField.text = exerciseSet.weight != nil ? "\(exerciseSet.weight ?? 0)" : ""
-        setRepsTextField.text = exerciseSet.reps != nil ? "\(exerciseSet.reps ?? 0)" : ""
+        setWeightTextField.text = exerciseSet.weight != 0 ? "\(exerciseSet.weight)" : ""
+        setRepsTextField.text = exerciseSet.weight != 0 ? "\(exerciseSet.reps)" : ""
         
         setWeightTextField.delegate = self
         setRepsTextField.delegate = self
@@ -54,10 +54,10 @@ extension ExerciseAddSetCollectionViewCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == setWeightTextField {
             guard let text = setWeightTextField.text, !text.isEmpty, let weight = Int(text) else { return }
-            exerciseSet?.weight = weight
+            exerciseSet?.weight = Int16(weight)
         } else if textField == setRepsTextField {
             guard let text = setRepsTextField.text, !text.isEmpty, let reps = Int(text) else { return }
-            exerciseSet?.reps = reps
+            exerciseSet?.reps = Int16(reps)
         }
     }
 }

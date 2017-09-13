@@ -17,7 +17,10 @@ class WorkoutExerciseController {
     // MARK: - Methods
     
     func addSetToWorkoutExercise(exerciseSet: ExerciseSet, workoutExercise: WorkoutExercise) {
-        workoutExercise.sets.append(exerciseSet)
+        if var sets = workoutExercise.sets?.array as? [ExerciseSet] {
+            sets.append(exerciseSet)
+            workoutExercise.sets = NSOrderedSet(array: sets)
+        }
     }
     
 }

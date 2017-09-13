@@ -24,17 +24,21 @@ class StartedWorkoutOverviewViewController: UIViewController {
     
     @IBAction func doneBarButtonItemTapped(_ sender: Any) {
         
-        guard let pendingWorkoutCompleted = WorkoutCompletedController.shared.pendingWorkoutCompleted else { return }
+        guard let pendingWorkoutCompleted = WorkoutCompletedController.shared.pendingWorkoutCompleted,
+            let workoutExercises = pendingWorkoutCompleted.actualWorkout?.exercises?.array as? [WorkoutExercise],
+            let time = pendingWorkoutCompleted.date?.timeIntervalSinceNow else { return }
         
-        for workoutExercise in pendingWorkoutCompleted.actualWorkout.exercises {
-            for exerciseSet in workoutExercise.sets {
-                if !exerciseSet.isCompleted {
-                    return
+        for workoutExercise in workoutExercises {
+            if let exerciseSets = workoutExercise.sets?.array as? [ExerciseSet] {
+                for exerciseSet in exerciseSets {
+                    if !exerciseSet.isCompleted {
+                        return
+                    }
                 }
             }
         }
 
-        pendingWorkoutCompleted.time = -pendingWorkoutCompleted.date.timeIntervalSinceNow
+        pendingWorkoutCompleted.time = -time
         WorkoutCompletedController.shared.addWorkoutCompleted(pendingWorkoutCompleted)
         WorkoutCompletedController.shared.pendingWorkoutCompleted = nil
         WorkoutTimer.shared.stopTimer()
@@ -68,7 +72,7 @@ class StartedWorkoutOverviewViewController: UIViewController {
         
         title = WorkoutController.shared.selectedWorkout?.name?.uppercased()
         
-        startTime = WorkoutCompletedController.shared.pendingWorkoutCompleted?.date
+        startTime = WorkoutCompletedController.shared.pendingWorkoutCompleted?.date as Date?
         NotificationCenter.default.addObserver(self, selector: #selector(updateTimerLabel), name: WorkoutTimer.workoutTimerFired, object: nil)
         WorkoutTimer.shared.startTimer()
     }
@@ -85,7 +89,7 @@ class StartedWorkoutOverviewViewController: UIViewController {
         if segue.identifier == "toExerciseDetail" {
             guard let row = tableView.indexPathForSelectedRow?.row else { return }
             let startedWorkoutExerciseDetailViewController = segue.destination as? StartedWorkoutExerciseDetailViewController
-            startedWorkoutExerciseDetailViewController?.workoutExercise = WorkoutController.shared.selectedWorkout?.exercises[row]
+            startedWorkoutExerciseDetailViewController?.workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[row] as? WorkoutExercise
             startedWorkoutExerciseDetailViewController?.timerStringFromOverview = timerLabel.text
         }
     }
@@ -111,12 +115,12 @@ class StartedWorkoutOverviewViewController: UIViewController {
 extension StartedWorkoutOverviewViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return WorkoutController.shared.selectedWorkout?.exercises.count ?? 0
+        return WorkoutController.shared.selectedWorkout?.exercises?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "startedWorkoutExerciseCell", for: indexPath) as? StartedWorkoutExerciseTableViewCell {
-            let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises[indexPath.row]
+            let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[indexPath.row] as? WorkoutExercise
             cell.workoutExercise = workoutExercise
             cell.frame = tableView.bounds
             cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
@@ -135,12 +139,17 @@ extension StartedWorkoutOverviewViewController: UITableViewDataSource, UITableVi
 extension StartedWorkoutOverviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return WorkoutController.shared.selectedWorkout?.exercises[collectionView.tag].sets.count ?? 0
+        if let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
+            return workoutExercise.sets?.count ?? 0
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "startedExerciseSetCell", for: indexPath) as? StartedWorkoutSetCollectionViewCell else { return StartedWorkoutSetCollectionViewCell() }
-        cell.exerciseSet = WorkoutController.shared.selectedWorkout?.exercises[collectionView.tag].sets[indexPath.item]
+        if let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
+            cell.exerciseSet = workoutExercise.sets?[indexPath.item] as? ExerciseSet
+        }
         cell.exerciseSetNumber = indexPath.item + 1
         return cell
     }

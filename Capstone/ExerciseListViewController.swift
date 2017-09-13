@@ -40,17 +40,27 @@ class ExerciseListViewController: UIViewController {
 //        WorkoutExerciseController.shared.exercisesSelected = exercisesSelected.flatMap { WorkoutExercise(exercise: $0) }
         var workoutExercises = exercisesSelected.flatMap { WorkoutExercise(exercise: $0) }
         
-        guard let selectedWorkout = WorkoutController.shared.selectedWorkout else { return }
+        guard let selectedWorkoutExercises = WorkoutController.shared.selectedWorkout?.exercises?.array as? [WorkoutExercise] else { return }
         
-        for workoutExercise in selectedWorkout.exercises {
-            if workoutExercises.contains(workoutExercise) {
-                if let index = workoutExercises.index(of: workoutExercise) {
-                    workoutExercises[index] = workoutExercise
+//        for workoutExercise in selectedWorkoutExercises {
+//            if workoutExercises.contains(workoutExercise) {
+//                if let index = workoutExercises.index(of: workoutExercise) {
+//                    workoutExercises[index] = workoutExercise
+//                }
+//            }
+//        }
+        
+        for selectedWorkoutExercise in selectedWorkoutExercises {
+            for workoutExercise in workoutExercises {
+                if selectedWorkoutExercise.id == workoutExercise.id {
+                    if let index = workoutExercises.index(of: workoutExercise) {
+                        workoutExercises[index] = selectedWorkoutExercise
+                    }
                 }
             }
         }
         
-        WorkoutController.shared.selectedWorkout?.exercises = workoutExercises
+        WorkoutController.shared.selectedWorkout?.exercises = NSOrderedSet(array: workoutExercises)
         ExerciseController.shared.exercisesSelected = exercisesSelected
         exercisesSelected = []
 
@@ -75,10 +85,10 @@ class ExerciseListViewController: UIViewController {
         
         exerciseCategorySegmentedControl.selectedSegmentIndex = ExerciseListViewController.lastExerciseCategorySelected
         
-        if let selectedWorkout = WorkoutController.shared.selectedWorkout{
-            for workoutExercise in selectedWorkout.exercises {
+        if let selectedWorkoutExercises = WorkoutController.shared.selectedWorkout?.exercises?.array as? [WorkoutExercise] {
+            for workoutExercise in selectedWorkoutExercises {
                 for exercise in ExerciseController.shared.exercises {
-                    if workoutExercise == exercise {
+                    if workoutExercise.id == exercise.id {
                         exercise.isSelected = true
                         exercisesSelected.append(exercise)
                     }

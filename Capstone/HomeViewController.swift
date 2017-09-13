@@ -77,7 +77,8 @@ class HomeViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "startWorkout" {
             guard let row = tableView.indexPathForSelectedRow?.row else { return }
-            let actualWorkout = WorkoutController.shared.todaysWorkouts[row].copy()
+            
+            let actualWorkout = WorkoutController.shared.copyWorkout(WorkoutController.shared.todaysWorkouts[row])
             WorkoutCompletedController.shared.createPendingWorkoutCompleted(plannedWorkout: WorkoutController.shared.todaysWorkouts[row], actualWorkout: actualWorkout)
             WorkoutController.shared.selectedWorkout = actualWorkout
         }
@@ -116,8 +117,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.section == 0 {
             if indexPath.row % 2 == 0 {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "titleWithDateCell", for: indexPath) as? WorkoutTitleWithDateTableViewCell else { return WorkoutTitleWithDateTableViewCell() }
-                cell.updateViews(workout: WorkoutCompletedController.shared.workoutsCompleted[indexPath.row / 2].actualWorkout, dateAsString: dateFormatter.string(from: WorkoutCompletedController.shared.workoutsCompleted[indexPath.row / 2].date))
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "titleWithDateCell", for: indexPath) as? WorkoutTitleWithDateTableViewCell,
+                    let actualWorkout = WorkoutCompletedController.shared.workoutsCompleted[indexPath.row / 2].actualWorkout,
+                    let date = WorkoutCompletedController.shared.workoutsCompleted[indexPath.row / 2].date else { return WorkoutTitleWithDateTableViewCell() }
+                cell.updateViews(workout: actualWorkout, dateAsString: dateFormatter.string(from: date as Date))
                 return cell
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "exercisesCell", for: indexPath) as? WorkoutExercisesTableViewCell else { return WorkoutExercisesTableViewCell() }
@@ -165,23 +168,30 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout.exercises.count
+        return WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout.exercises[section].sets.count + 1
+        if let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[section] as? WorkoutExercise, let count = workoutExercise.sets?.count {
+            return count + 1
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "exerciseSetsSectionNameCell", for: indexPath) as? ExerciseSetsSectionNameCollectionViewCell else { return ExerciseSetsSectionNameCollectionViewCell() }
-            cell.exerciseNameLabel.text = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout.exercises[indexPath.section].name
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "exerciseSetsSectionNameCell", for: indexPath) as? ExerciseSetsSectionNameCollectionViewCell,
+                let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[indexPath.section] as? WorkoutExercise else { return ExerciseSetsSectionNameCollectionViewCell() }
+            
+            cell.exerciseNameLabel.text = workoutExercise.name
             return cell
         }
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "exerciseSetsCell", for: indexPath) as? ExerciseSetsCollectionViewCell else { return ExerciseSetsCollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "exerciseSetsCell", for: indexPath) as? ExerciseSetsCollectionViewCell,
+            let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[indexPath.section] as? WorkoutExercise,
+            let exerciseSet = workoutExercise.sets?[indexPath.item - 1] as? ExerciseSet else { return ExerciseSetsCollectionViewCell() }
         cell.setNumberLabel.text = "\(indexPath.item)"
-        cell.updateViews(set: WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout.exercises[indexPath.section].sets[indexPath.item - 1])
+        cell.updateViews(set: exerciseSet)
         return cell
     }
     

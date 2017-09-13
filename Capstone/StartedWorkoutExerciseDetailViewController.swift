@@ -40,11 +40,14 @@ class StartedWorkoutExerciseDetailViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        startTime = WorkoutCompletedController.shared.pendingWorkoutCompleted?.date
+        if let date = WorkoutCompletedController.shared.pendingWorkoutCompleted?.date {
+            startTime = date as Date
+        }
         timerLabel.text = timerStringFromOverview
         NotificationCenter.default.addObserver(self, selector: #selector(updateTimerLabel), name: WorkoutTimer.workoutTimerFired, object: nil)
-        restTime = workoutExercise?.restTime
+        if let restTime = workoutExercise?.restTime {
+            self.restTime = Int(restTime)
+        }
         restTimerLabel.text = "\(workoutExercise?.restTime ?? 0)"
         NotificationCenter.default.addObserver(self, selector: #selector(startRestTimer), name: ExerciseSetController.setComplete, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(stopRestTimer), name: ExerciseSetController.setNotComplete, object: nil)
@@ -81,7 +84,9 @@ class StartedWorkoutExerciseDetailViewController: UIViewController {
         restTimeProgressView.progress = 1
         restTimerLabel.alpha = 0
         restTimerLabel.text = "\(workoutExercise?.restTime ?? 0)"
-        self.restTime = workoutExercise?.restTime
+        if let restTime = workoutExercise?.restTime {
+            self.restTime = Int(restTime)
+        }
     }
     
     func updateRestTimerLabel() {
@@ -105,12 +110,12 @@ class StartedWorkoutExerciseDetailViewController: UIViewController {
 extension StartedWorkoutExerciseDetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return workoutExercise?.sets.count ?? 0
+        return workoutExercise?.sets?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "startedWorkoutSetDetailCell", for: indexPath) as? StartedWorkoutSetDetailTableViewCell,
-            let exerciseSet = workoutExercise?.sets[indexPath.row] else { return StartedWorkoutSetDetailTableViewCell() }
+            let exerciseSet = workoutExercise?.sets?[indexPath.row] as? ExerciseSet else { return StartedWorkoutSetDetailTableViewCell() }
         cell.delegate = self
         cell.setNumberLabel.text = "Set #\(indexPath.row + 1)"
         cell.exerciseSet = exerciseSet
@@ -122,8 +127,8 @@ extension StartedWorkoutExerciseDetailViewController: UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let workoutExercise = workoutExercise {
-            if workoutExercise.sets[indexPath.row].isCompleted {
+        if let exerciseSet = workoutExercise?.sets?[indexPath.row] as? ExerciseSet {
+            if exerciseSet.isCompleted {
                 return 75
             }
         }
@@ -138,8 +143,9 @@ extension StartedWorkoutExerciseDetailViewController: UITableViewDataSource, UIT
 extension StartedWorkoutExerciseDetailViewController: StartedWorkoutSetDetailTableViewCellDelegate {
     func setCompleteButtonTapped(cell: StartedWorkoutSetDetailTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell),
-            let workoutExercise = workoutExercise else { return }
-        ExerciseSetController.shared.toggleIsComplete(set: workoutExercise.sets[indexPath.row])
+            let workoutExercise = workoutExercise,
+            let exerciseSet = workoutExercise.sets?[indexPath.row] as? ExerciseSet else { return }
+        ExerciseSetController.shared.toggleIsComplete(set: exerciseSet)
         cell.updateViews()
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }

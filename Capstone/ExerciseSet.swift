@@ -7,27 +7,18 @@
 //
 
 import Foundation
+import CoreData
 
-class ExerciseSet: Cloneable {
-    
-    // MARK: - Properties
-    
-    var reps: Int?
-    var weight: Int?
-    var isCompleted = false
+extension ExerciseSet {
     
     // MARK: - Initializers
     
-    init(reps: Int? = nil, weight: Int? = nil) {
-        self.reps = reps
-        self.weight = weight
-    }
-    
-    // MARK: - Cloneable
-    
-    required init(instance: ExerciseSet) {
-        self.reps = instance.reps
-        self.weight = instance.weight
+    convenience init(reps: Int? , weight: Int? , context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
+        
+        guard let reps = reps, let weight = weight else { return }
+        self.reps = Int16(reps)
+        self.weight = Int16(weight)
     }
     
 }

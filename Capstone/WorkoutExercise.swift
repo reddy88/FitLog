@@ -7,30 +7,37 @@
 //
 
 import Foundation
+import CoreData
 
-class WorkoutExercise: Exercise, Cloneable {
-    
-    // MARK: - Properties
-    
-    var sets: [ExerciseSet]
-    var restTime: Int
+extension WorkoutExercise {
     
     // MARK: - Initializers
     
-    init(exercise: Exercise) {
+    convenience init(exercise: Exercise, context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
+        
         self.sets = []
         self.restTime = 0
-        
-        super.init(name: exercise.name, category: exercise.category, id: exercise.id)
+        self.name = exercise.name
+        self.category = exercise.category
+        self.id = exercise.id
     }
     
-    // MARK: - Cloneable
-    
-    required init(instance: WorkoutExercise) {
-        self.sets = instance.sets.copy()
-        self.restTime = instance.restTime
+    convenience init(workoutExercise: WorkoutExercise, context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
         
-        super.init(name: instance.name, category: instance.category, id: instance.id)
+        if let exerciseSets = workoutExercise.sets?.array as? [ExerciseSet] {
+            var exerciseSetsCopy: [ExerciseSet] = []
+            for exerciseSet in exerciseSets {
+                exerciseSetsCopy.append(ExerciseSet(reps: Int(exerciseSet.reps), weight: Int(exerciseSet.weight)))
+            }
+            self.sets = NSOrderedSet(array: exerciseSetsCopy)
+        }
+        
+        self.restTime = workoutExercise.restTime
+        self.name = workoutExercise.name
+        self.category = workoutExercise.category
+        self.id = workoutExercise.id
     }
-    
+
 }

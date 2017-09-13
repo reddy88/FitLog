@@ -9,45 +9,28 @@
 import Foundation
 import CoreData
 
-class Exercise {
-    
-    // MARK: - Class properties
-    
-    private let nameKey = "name"
-    private let categoryKey = "category"
-    private let idKey = "id"
-    
-    // MARK: - Instance Properties
-    
-    let name: String
-    let category: Int
-    let id: Int
-    var isSelected: Bool = false
+extension Exercise {
     
     // MARK: - Initializers
     
-    init(name: String, category: Int, id: Int) {
+    convenience init(name: String, category: Int, id: Int, context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
+        
         self.name = name
-        self.category = category
-        self.id = id
+        self.category = Int16(category)
+        self.id = Int16(id)
     }
     
-    init?(dictionary: [String: Any]) {
+    convenience init?(dictionary: [String: Any], context: NSManagedObjectContext = CoreDataStack.context) {
+        self.init(context: context)
+        
         guard let name = dictionary["name"] as? String,
             let category = dictionary["category"] as? Int,
             let id = dictionary["id"] as? Int else { return nil }
         
         self.name = name
-        self.category = category
-        self.id = id
+        self.category = Int16(category)
+        self.id = Int16(id)
     }
     
-}
-
-// MARK: Equatable
-
-extension Exercise: Equatable {
-    static func ==(lhs: Exercise, rhs: Exercise) -> Bool {
-        return lhs.id == rhs.id
-    }
 }

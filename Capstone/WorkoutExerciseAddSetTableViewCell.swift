@@ -21,8 +21,9 @@ class WorkoutExerciseAddSetTableViewCell: UITableViewCell {
     @IBAction func addSetButtonTapped(_ sender: UIButton) {
         let buttonRow = sender.tag
         
-        guard let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises[buttonRow] else { return }
-        workoutExercise.sets.append(ExerciseSet())
+        guard let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[buttonRow] as? WorkoutExercise, var sets = workoutExercise.sets?.array as? [ExerciseSet] else { return }
+        sets.append(ExerciseSet(reps: nil, weight: nil))
+        workoutExercise.sets = NSOrderedSet(array: sets)
         collectionView.reloadData()
         NotificationCenter.default.post(name: WorkoutExerciseAddSetTableViewCell.addedSetNotification, object: nil)
         
@@ -35,9 +36,10 @@ class WorkoutExerciseAddSetTableViewCell: UITableViewCell {
     }
     
     @IBAction func removeSetButtonTapped(_ sender: Any) {
-        guard let workoutExercise = workoutExercise else { return }
-        if !workoutExercise.sets.isEmpty {
-            workoutExercise.sets.removeLast()
+        guard var sets = workoutExercise?.sets?.array as? [ExerciseSet] else { return }
+        if !sets.isEmpty {
+            sets.removeLast()
+            workoutExercise?.sets = NSOrderedSet(array: sets)
             collectionView.reloadData()
             NotificationCenter.default.post(name: WorkoutExerciseAddSetTableViewCell.addedSetNotification, object: nil)
         }
@@ -61,7 +63,7 @@ class WorkoutExerciseAddSetTableViewCell: UITableViewCell {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
             guard let text = alertController.textFields?.first?.text, !text.isEmpty, let seconds = Int(text) else { return }
-            self.workoutExercise?.restTime = seconds
+            self.workoutExercise?.restTime = Int16(seconds)
         }
         
         alertController.addAction(cancelAction)

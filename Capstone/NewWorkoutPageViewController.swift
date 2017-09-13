@@ -30,13 +30,12 @@ class NewWorkoutPageViewController: UIViewController {
                     guard let colorTagTableViewCell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ColorTagTableViewCell else { return }
                     let tagColorFromCell = colorTagTableViewCell.colorTagSelected()
                     
-                    WorkoutController.shared.selectedWorkout?.tagColor = tagColorFromCell
+                    WorkoutController.shared.selectedWorkout?.tagColor = tagColorFromCell.rawValue
                     
                     guard let daysOfWeekTableViewCell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DaysOfWeekTableViewCell else { return }
                     let daysSelectedFromCell = daysOfWeekTableViewCell.daysSelected()
                     
-                    WorkoutController.shared.selectedWorkout?.workoutDays = daysSelectedFromCell
-                    
+                    WorkoutController.shared.daysOfWeekConverter(daysOfWeek: daysSelectedFromCell, workout: WorkoutController.shared.selectedWorkout)
                 }
             }
             
@@ -111,13 +110,16 @@ class NewWorkoutPageViewController: UIViewController {
     func isValidWorkout(workout: Workout) -> Bool {
         guard let name = workout.name, !name.isEmpty else { return false }
         
-        if !workout.exercises.isEmpty {
-            for exercise in workout.exercises {
-                if exercise.sets.isEmpty {
+        guard let workoutExercises = workout.exercises?.array as? [WorkoutExercise] else { return false }
+        
+        if !workoutExercises.isEmpty {
+            for exercise in workoutExercises {
+                if exercise.sets?.count == 0 {
                     return false
                 }
-                for set in exercise.sets {
-                    if set.reps == 0 || set.reps == nil || set.weight == 0 || set.weight == nil {
+                guard let sets = exercise.sets?.array as? [ExerciseSet] else { return false }
+                for set in sets {
+                    if set.reps == 0 || set.weight == 0 {
                         return false
                     }
                 }
