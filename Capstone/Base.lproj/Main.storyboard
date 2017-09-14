@@ -634,7 +634,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Ucw-vC-AHP" kind="relationship" relationship="rootViewController" id="9g3-DK-o6z"/>
+                        <segue destination="Ucw-vC-AHP" kind="relationship" relationship="rootViewController" id="caL-4v-36D"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M5I-xs-ZTs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -697,7 +697,7 @@
         <!--Home View Controller-->
         <scene sceneID="S3o-hB-EHf">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Ucw-vC-AHP" customClass="HomeViewController" customModule="Capstone" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Ucw-vC-AHP" customClass="HomeViewController" customModule="Capstone" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aXD-OH-MDw"/>
                         <viewControllerLayoutGuide type="bottom" id="Z4e-G7-VnC"/>
@@ -750,8 +750,29 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l1t-Mz-V2K">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVo-Yr-KYg">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otn-TB-8j5">
+                                                <rect key="frame" x="-30" y="36" width="120" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="120" id="nUa-Uk-hpw"/>
+                                                </constraints>
+                                                <state key="normal" image="menu_button"/>
+                                                <connections>
+                                                    <action selector="menuBarButtonItemTapped:" destination="Ucw-vC-AHP" eventType="touchUpInside" id="Vxm-wL-nH6"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.16078431372549018" green="0.13856096570000001" blue="0.25893729929999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstItem="otn-TB-8j5" firstAttribute="centerY" secondItem="AVo-Yr-KYg" secondAttribute="centerY" constant="15" id="3qJ-ib-a0w"/>
+                                            <constraint firstAttribute="height" constant="64" id="8so-9o-GZy"/>
+                                            <constraint firstItem="otn-TB-8j5" firstAttribute="leading" secondItem="AVo-Yr-KYg" secondAttribute="leadingMargin" constant="-38" id="QmG-o8-hBD"/>
+                                        </constraints>
+                                    </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8H0-ZZ-8vJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                        <rect key="frame" x="0.0" y="64" width="375" height="539"/>
                                         <color key="backgroundColor" red="0.16215552389999999" green="0.13856096570000001" blue="0.25893729929999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="titleWithDateCell" rowHeight="81" id="oCW-gQ-8nM" customClass="WorkoutTitleWithDateTableViewCell" customModule="Capstone" customModuleProvider="target">
@@ -1002,47 +1023,48 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="8H0-ZZ-8vJ" firstAttribute="top" secondItem="l1t-Mz-V2K" secondAttribute="top" id="2J3-I4-Fdt"/>
+                                    <constraint firstItem="AVo-Yr-KYg" firstAttribute="top" secondItem="l1t-Mz-V2K" secondAttribute="top" id="0vq-Pf-sDN"/>
+                                    <constraint firstItem="AVo-Yr-KYg" firstAttribute="leading" secondItem="l1t-Mz-V2K" secondAttribute="leading" id="1i7-vv-ygT"/>
                                     <constraint firstAttribute="bottom" secondItem="8H0-ZZ-8vJ" secondAttribute="bottom" id="Ief-be-Qu2"/>
                                     <constraint firstItem="8H0-ZZ-8vJ" firstAttribute="leading" secondItem="l1t-Mz-V2K" secondAttribute="leading" id="NPJ-br-tcv"/>
+                                    <constraint firstItem="8H0-ZZ-8vJ" firstAttribute="top" secondItem="AVo-Yr-KYg" secondAttribute="bottom" id="gfh-EC-hFT"/>
+                                    <constraint firstAttribute="trailing" secondItem="AVo-Yr-KYg" secondAttribute="trailing" id="hUo-7O-ksz"/>
                                     <constraint firstAttribute="trailing" secondItem="8H0-ZZ-8vJ" secondAttribute="trailing" id="v6g-7Z-PBw"/>
                                 </constraints>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="xye-vr-obo" appends="YES" id="lxE-JF-1Lj"/>
+                                    <outletCollection property="gestureRecognizers" destination="KVT-DC-h3z" appends="YES" id="6eP-qa-hVB"/>
                                 </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="l1t-Mz-V2K" firstAttribute="leading" secondItem="YJ5-GR-7eY" secondAttribute="leading" id="0U0-0s-hGx"/>
-                            <constraint firstItem="d53-ZP-USE" firstAttribute="top" secondItem="aXD-OH-MDw" secondAttribute="bottom" id="CdB-n2-5HH"/>
+                            <constraint firstItem="l1t-Mz-V2K" firstAttribute="height" secondItem="YJ5-GR-7eY" secondAttribute="height" id="2DU-va-38k"/>
                             <constraint firstAttribute="trailing" secondItem="d53-ZP-USE" secondAttribute="trailing" id="FvM-Wy-WdH"/>
                             <constraint firstAttribute="trailing" secondItem="l1t-Mz-V2K" secondAttribute="trailing" id="Ilk-oC-WN0"/>
                             <constraint firstItem="Z4e-G7-VnC" firstAttribute="top" secondItem="d53-ZP-USE" secondAttribute="bottom" id="Ptg-yn-zat"/>
                             <constraint firstItem="d53-ZP-USE" firstAttribute="leading" secondItem="YJ5-GR-7eY" secondAttribute="leading" id="Uyc-En-IgG"/>
-                            <constraint firstItem="l1t-Mz-V2K" firstAttribute="top" secondItem="aXD-OH-MDw" secondAttribute="bottom" id="VNR-4s-EUF"/>
+                            <constraint firstItem="d53-ZP-USE" firstAttribute="height" secondItem="YJ5-GR-7eY" secondAttribute="height" id="VGS-nc-owx"/>
                             <constraint firstItem="Z4e-G7-VnC" firstAttribute="top" secondItem="l1t-Mz-V2K" secondAttribute="bottom" id="uE3-HU-cO7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5BT-DB-izD">
-                        <barButtonItem key="leftBarButtonItem" image="menu_button" id="P31-tK-IbH">
-                            <connections>
-                                <action selector="menuBarButtonItemTapped:" destination="Ucw-vC-AHP" id="0L7-lp-2dO"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" image="menu_button" id="P31-tK-IbH"/>
                     </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="homeView" destination="l1t-Mz-V2K" id="vS9-Xc-shE"/>
                         <outlet property="homeViewLeadingConstraint" destination="0U0-0s-hGx" id="Uji-xu-4iH"/>
-                        <outlet property="homeViewTapGestureRecognizer" destination="xye-vr-obo" id="wVZ-YN-aya"/>
+                        <outlet property="homeViewTapGestureRecognizer" destination="KVT-DC-h3z" id="auM-S4-G5I"/>
                         <outlet property="homeViewTrailingConstraint" destination="Ilk-oC-WN0" id="vQN-IE-SwS"/>
+                        <outlet property="menuButton" destination="otn-TB-8j5" id="zs6-Eo-HbS"/>
                         <outlet property="menuTableView" destination="d53-ZP-USE" id="Aej-mM-Ha3"/>
                         <outlet property="tableView" destination="8H0-ZZ-8vJ" id="xE7-jc-Am4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQh-B8-9rL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="xye-vr-obo">
+                <tapGestureRecognizer id="KVT-DC-h3z">
                     <connections>
-                        <action selector="homeViewTapped:" destination="Ucw-vC-AHP" id="dxX-Zf-ALH"/>
+                        <action selector="homeViewTapped:" destination="Ucw-vC-AHP" id="pq7-BG-23J"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

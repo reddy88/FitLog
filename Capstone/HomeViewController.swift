@@ -17,20 +17,31 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var homeViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var homeViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var homeViewTapGestureRecognizer: UITapGestureRecognizer!
+    @IBOutlet weak var menuButton: UIButton!
+    @IBOutlet weak var homeView: UIView!
     
     // MARK: - IBActions
     
     @IBAction func menuBarButtonItemTapped(_ sender: Any) {
         
         homeViewTapGestureRecognizer.isEnabled = true
+        menuButton.isEnabled = false
+        //shouldStatusBarHide = true
         
-        homeViewLeadingConstraint.constant = 300
-        homeViewTrailingConstraint.constant = -300
-        navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
+        homeViewLeadingConstraint.constant = 250
+        homeViewTrailingConstraint.constant = -250
+        //        navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
+        
+        
         
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
+            //self.statusBarWindow?.alpha = 0.0
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.homeView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         })
+        
+        
         
     }
     
@@ -38,13 +49,23 @@ class HomeViewController: UIViewController {
         homeViewLeadingConstraint.constant = 0
         homeViewTrailingConstraint.constant = 0
         
-        navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
+
+        
+        //        navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
+        //shouldStatusBarHide = false
         
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
+
+            //self.statusBarWindow?.alpha = 1.0
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.homeView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         })
         
         homeViewTapGestureRecognizer.isEnabled = false
+        menuButton.isEnabled = true
+        
+        
     }
     
     
@@ -53,6 +74,8 @@ class HomeViewController: UIViewController {
     let menuItems = ["Workouts"]
     let menuItemImages = [#imageLiteral(resourceName: "dumbell icon")]
     var shouldScrollToBottom = true
+    var shouldStatusBarHide = false
+    let statusBarWindow = UIApplication.shared.value(forKey: "statusBarWindow") as? UIWindow
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -61,16 +84,16 @@ class HomeViewController: UIViewController {
     }()
     
     override var prefersStatusBarHidden: Bool {
-        return navigationController?.isNavigationBarHidden == true
+        return shouldStatusBarHide
     }
     
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return UIStatusBarAnimation.slide
     }
     
-    //    override var preferredStatusBarStyle: UIStatusBarStyle {
-    //        return .lightContent
-    //    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     // MARK: - Lifecycle
     
@@ -86,6 +109,11 @@ class HomeViewController: UIViewController {
         
         homeViewTapGestureRecognizer.isEnabled = false
         
+        
+//        let statusView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: UIApplication.shared.statusBarFrame.size.height))
+//        statusView.backgroundColor = UIColor(red: 41.0/255.0, green: 35.0/255.0, blue: 66.0/255.0, alpha: 1.0)
+//        self.view.addSubview(statusView)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +121,8 @@ class HomeViewController: UIViewController {
         
         WorkoutController.shared.getWorkoutsScheduledForToday()
         tableView.reloadData()
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
         if shouldScrollToBottom {
             shouldScrollToBottom = !shouldScrollToBottom
@@ -119,12 +149,15 @@ class HomeViewController: UIViewController {
             WorkoutCompletedController.shared.createPendingWorkoutCompleted(plannedWorkout: WorkoutController.shared.todaysWorkouts[row], actualWorkout: actualWorkout)
             ActualWorkoutController.shared.selectedWorkout = actualWorkout
         } else if segue.identifier == "toWorkoutsList" {
-            navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
             
             homeViewLeadingConstraint.constant = 0
             homeViewTrailingConstraint.constant = 0
             
             homeViewTapGestureRecognizer.isEnabled = false
+            menuButton.isEnabled = true
+            //shouldStatusBarHide = false
+            navigationController?.setNavigationBarHidden(false, animated: false)
+            self.homeView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }
     }
     
