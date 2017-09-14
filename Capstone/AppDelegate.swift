@@ -28,6 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WorkoutController.shared.workouts = workouts
         }
         
+        UINavigationBar.appearance().barStyle = .blackOpaque
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        
         return true
     }
     

@@ -11,38 +11,45 @@ import UIKit
 class HomeViewController: UIViewController {
     
     // MARK: - IBOutlets
-
+    
     @IBOutlet weak var menuTableView: UITableView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var homeViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var homeViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var homeViewTapGestureRecognizer: UITapGestureRecognizer!
     
     // MARK: - IBActions
     
     @IBAction func menuBarButtonItemTapped(_ sender: Any) {
-        if isMenuOpened {
-            homeViewLeadingConstraint.constant = 0
-            homeViewTrailingConstraint.constant = 0
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.view.layoutIfNeeded()
-            })
-            
-        } else {
-            homeViewLeadingConstraint.constant = 300
-            homeViewTrailingConstraint.constant = -300
-            
-            UIView.animate(withDuration: 0.3, animations: { 
-                self.view.layoutIfNeeded()
-            })
-        }
         
-        isMenuOpened = !isMenuOpened
+        homeViewTapGestureRecognizer.isEnabled = true
+        
+        homeViewLeadingConstraint.constant = 300
+        homeViewTrailingConstraint.constant = -300
+        navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+        
     }
+    
+    @IBAction func homeViewTapped(_ sender: Any) {
+        homeViewLeadingConstraint.constant = 0
+        homeViewTrailingConstraint.constant = 0
+        
+        navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+        
+        homeViewTapGestureRecognizer.isEnabled = false
+    }
+    
     
     // MARK: - Properties
     
-    var isMenuOpened = false
     let menuItems = ["Workouts"]
     let menuItemImages = [#imageLiteral(resourceName: "dumbell icon")]
     var shouldScrollToBottom = true
@@ -52,6 +59,18 @@ class HomeViewController: UIViewController {
         formatter.setLocalizedDateFormatFromTemplate("EMMMd")
         return formatter
     }()
+    
+    override var prefersStatusBarHidden: Bool {
+        return navigationController?.isNavigationBarHidden == true
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return UIStatusBarAnimation.slide
+    }
+    
+    //    override var preferredStatusBarStyle: UIStatusBarStyle {
+    //        return .lightContent
+    //    }
     
     // MARK: - Lifecycle
     
@@ -64,7 +83,9 @@ class HomeViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-
+        
+        homeViewTapGestureRecognizer.isEnabled = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,9 +118,16 @@ class HomeViewController: UIViewController {
             let actualWorkout = ActualWorkoutController.shared.copyWorkout(WorkoutController.shared.todaysWorkouts[row])
             WorkoutCompletedController.shared.createPendingWorkoutCompleted(plannedWorkout: WorkoutController.shared.todaysWorkouts[row], actualWorkout: actualWorkout)
             ActualWorkoutController.shared.selectedWorkout = actualWorkout
+        } else if segue.identifier == "toWorkoutsList" {
+            navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
+            
+            homeViewLeadingConstraint.constant = 0
+            homeViewTrailingConstraint.constant = 0
+            
+            homeViewTapGestureRecognizer.isEnabled = false
         }
     }
-
+    
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -130,7 +158,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             cell.menuItemImageView.image = menuItemImages[indexPath.row]
             return cell
         }
-
+        
         if indexPath.section == 0 {
             if indexPath.row % 2 == 0 {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "titleWithDateCell", for: indexPath) as? WorkoutTitleWithDateTableViewCell,
@@ -157,12 +185,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         
         if indexPath.section == 0 {
             if indexPath.row % 2 == 0 {
-                return 70
+                return 81
             }
             return 220
         }
         
-        return 44
+        return 75
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -176,6 +204,18 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         
         return "Today's Scheduled Workout(s)"
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let headerTitle = view as? UITableViewHeaderFooterView {
+            headerTitle.textLabel?.textColor = UIColor.white
+        }
+        (view as! UITableViewHeaderFooterView).backgroundView?.backgroundColor = UIColor(red: 41.0/255.0, green: 35.0/255.0, blue: 66.0/255.0, alpha: 1.0)
+    }
+    
+    //    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    //        if indexPath.section ==
+    //        return false
+    //    }
     
 }
 
