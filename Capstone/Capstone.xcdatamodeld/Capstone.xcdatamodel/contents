@@ -11,7 +11,7 @@
         <attribute name="tuesday" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="wednesday" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="actualWorkout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutCompleted" inverseName="actualWorkout" inverseEntity="WorkoutCompleted" syncable="YES"/>
-        <relationship name="exercises" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="WorkoutExercise" inverseName="actualWorkout" inverseEntity="WorkoutExercise" syncable="YES"/>
+        <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="WorkoutExerciseActual" inverseName="actualWorkout" inverseEntity="WorkoutExerciseActual" syncable="YES"/>
     </entity>
     <entity name="Exercise" representedClassName="Exercise" syncable="YES" codeGenerationType="class">
         <attribute name="category" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
@@ -21,9 +21,15 @@
     </entity>
     <entity name="ExerciseSet" representedClassName="ExerciseSet" syncable="YES" codeGenerationType="class">
         <attribute name="isCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="reps" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="weight" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="workoutExercise" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutExercise" inverseName="sets" inverseEntity="WorkoutExercise" syncable="YES"/>
+        <attribute name="reps" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="weight" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="workoutExercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutExercise" inverseName="sets" inverseEntity="WorkoutExercise" syncable="YES"/>
+    </entity>
+    <entity name="ExerciseSetActual" representedClassName="ExerciseSetActual" syncable="YES" codeGenerationType="class">
+        <attribute name="isCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="reps" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="weight" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="workoutExerciseActual" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutExerciseActual" inverseName="sets" inverseEntity="WorkoutExerciseActual" syncable="YES"/>
     </entity>
     <entity name="Workout" representedClassName="Workout" syncable="YES" codeGenerationType="class">
         <attribute name="friday" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -35,27 +41,39 @@
         <attribute name="thursday" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="tuesday" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="wednesday" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="exercises" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="WorkoutExercise" inverseName="workout" inverseEntity="WorkoutExercise" syncable="YES"/>
-        <relationship name="plannedWorkout" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutCompleted" inverseName="plannedWorkout" inverseEntity="WorkoutCompleted" syncable="YES"/>
+        <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="WorkoutExercise" inverseName="workout" inverseEntity="WorkoutExercise" syncable="YES"/>
     </entity>
     <entity name="WorkoutCompleted" representedClassName="WorkoutCompleted" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="time" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="actualWorkout" maxCount="1" deletionRule="Nullify" destinationEntity="ActualWorkout" inverseName="actualWorkout" inverseEntity="ActualWorkout" syncable="YES"/>
-        <relationship name="plannedWorkout" maxCount="1" deletionRule="Nullify" destinationEntity="Workout" inverseName="plannedWorkout" inverseEntity="Workout" syncable="YES"/>
+        <attribute name="time" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="actualWorkout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActualWorkout" inverseName="actualWorkout" inverseEntity="ActualWorkout" syncable="YES"/>
     </entity>
-    <entity name="WorkoutExercise" representedClassName="WorkoutExercise" parentEntity="Exercise" syncable="YES" codeGenerationType="class">
+    <entity name="WorkoutExercise" representedClassName="WorkoutExercise" syncable="YES" codeGenerationType="class">
+        <attribute name="category" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isSelected" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="restTime" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="actualWorkout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActualWorkout" inverseName="exercises" inverseEntity="ActualWorkout" syncable="YES"/>
-        <relationship name="sets" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ExerciseSet" inverseName="workoutExercise" inverseEntity="ExerciseSet" syncable="YES"/>
+        <relationship name="sets" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ExerciseSet" inverseName="workoutExercise" inverseEntity="ExerciseSet" syncable="YES"/>
         <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workout" inverseName="exercises" inverseEntity="Workout" syncable="YES"/>
     </entity>
+    <entity name="WorkoutExerciseActual" representedClassName="WorkoutExerciseActual" syncable="YES" codeGenerationType="class">
+        <attribute name="category" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isSelected" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="restTime" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="actualWorkout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActualWorkout" inverseName="exercises" inverseEntity="ActualWorkout" syncable="YES"/>
+        <relationship name="sets" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ExerciseSetActual" inverseName="workoutExerciseActual" inverseEntity="ExerciseSetActual" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Exercise" positionX="-81" positionY="-348" width="128" height="105"/>
-        <element name="ExerciseSet" positionX="144" positionY="-207" width="128" height="105"/>
-        <element name="Workout" positionX="232" positionY="-36" width="128" height="208"/>
-        <element name="WorkoutCompleted" positionX="9" positionY="162" width="128" height="103"/>
-        <element name="WorkoutExercise" positionX="-83" positionY="-189" width="128" height="103"/>
-        <element name="ActualWorkout" positionX="-297" positionY="72" width="128" height="208"/>
+        <element name="ActualWorkout" positionX="-288" positionY="80" width="128" height="208"/>
+        <element name="Exercise" positionX="-81" positionY="-348" width="128" height="103"/>
+        <element name="ExerciseSet" positionX="160" positionY="-207" width="128" height="103"/>
+        <element name="ExerciseSetActual" positionX="-477" positionY="-162" width="128" height="103"/>
+        <element name="Workout" positionX="97" positionY="86" width="128" height="193"/>
+        <element name="WorkoutCompleted" positionX="-477" positionY="191" width="128" height="90"/>
+        <element name="WorkoutExercise" positionX="-83" positionY="-189" width="128" height="148"/>
+        <element name="WorkoutExerciseActual" positionX="-272" positionY="-180" width="128" height="148"/>
     </elements>
 </model>

@@ -33,6 +33,13 @@ class WorkoutController {
         workouts.append(newWorkout)
     }
     
+    func deleteWorkout(workout: Workout) {
+        guard let index = workouts.index(of: workout) else { return }
+        workouts.remove(at: index)
+        workout.managedObjectContext?.delete(workout)
+        FetchedResultsController.shared.save()
+    }
+    
     func getWorkoutsScheduledForToday() {
         var todaysWorkouts: [Workout] = []
         
@@ -106,26 +113,48 @@ class WorkoutController {
         return daysOfWeek
     }
     
-    func copyWorkout(_ workout: Workout) -> Workout {
-        let workoutCopy = Workout(name: workout.name)
-        workoutCopy.sunday = workout.sunday
-        workoutCopy.monday = workout.monday
-        workoutCopy.tuesday = workout.tuesday
-        workoutCopy.wednesday = workout.wednesday
-        workoutCopy.thursday = workout.thursday
-        workoutCopy.friday = workout.friday
-        workoutCopy.saturday = workout.saturday
-        workoutCopy.tagColor = workout.tagColor
+//    func copyWorkout(_ workout: Workout) -> Workout {
+//        let workoutCopy = Workout(name: workout.name)
+//        workoutCopy.sunday = workout.sunday
+//        workoutCopy.monday = workout.monday
+//        workoutCopy.tuesday = workout.tuesday
+//        workoutCopy.wednesday = workout.wednesday
+//        workoutCopy.thursday = workout.thursday
+//        workoutCopy.friday = workout.friday
+//        workoutCopy.saturday = workout.saturday
+//        workoutCopy.tagColor = workout.tagColor
+//        
+//        if let workoutExercises = workout.exercises?.array as? [WorkoutExercise] {
+//            var workoutExercisesCopy: [WorkoutExercise] = []
+//            for workoutExercise in workoutExercises {
+//                workoutExercisesCopy.append(WorkoutExercise(workoutExercise: workoutExercise))
+//            }
+//            workoutCopy.exercises = NSOrderedSet(array: workoutExercisesCopy)
+//        }
+//        
+//        return workoutCopy
+//    }
+    
+    func isValidWorkout(workout: Workout) -> Bool {
+        guard let name = workout.name, !name.isEmpty else { return false }
         
-        if let workoutExercises = workout.exercises?.array as? [WorkoutExercise] {
-            var workoutExercisesCopy: [WorkoutExercise] = []
-            for workoutExercise in workoutExercises {
-                workoutExercisesCopy.append(WorkoutExercise(workoutExercise: workoutExercise))
+        guard let workoutExercises = workout.exercises?.array as? [WorkoutExercise] else { return false }
+        
+        if !workoutExercises.isEmpty {
+            for exercise in workoutExercises {
+                if exercise.sets?.count == 0 {
+                    return false
+                }
+                guard let sets = exercise.sets?.array as? [ExerciseSet] else { return false }
+                for set in sets {
+                    if set.reps == 0 || set.weight == 0 {
+                        return false
+                    }
+                }
             }
-            workoutCopy.exercises = NSOrderedSet(array: workoutExercisesCopy)
-        }
+        } else { return false }
         
-        return workoutCopy
+        return true
     }
     
 }

@@ -42,6 +42,8 @@ class NewWorkoutViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.separatorColor = UIColor(red: 41.0/255.0, green: 35.0/255.0, blue: 66.0/255.0, alpha: 1.0)
     }
     
     // MARK: - Methods
@@ -97,6 +99,13 @@ extension NewWorkoutViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "workoutNameCell", for: indexPath) as? WorkoutNameTableViewCell else { return WorkoutNameTableViewCell() }
             cell.workoutNameTextField.delegate = cell
             cell.workoutNameTextField.text = WorkoutController.shared.selectedWorkout?.name
+            
+            let attributes = [
+                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName : UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular)
+            ]
+            
+            cell.workoutNameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes:attributes)
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "workoutColorTagCell", for: indexPath) as? ColorTagTableViewCell,
@@ -113,8 +122,9 @@ extension NewWorkoutViewController: UITableViewDataSource {
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "workoutExercisesCell", for: indexPath)
-            if let exercises = WorkoutController.shared.selectedWorkout?.exercises?.array as? [Exercise] {
+            if let exercises = WorkoutController.shared.selectedWorkout?.exercises?.array as? [WorkoutExercise] {
                 cell.textLabel?.text = exercises[indexPath.row].name
+                cell.textLabel?.textColor = UIColor.white
             }
             return cell
         default:
@@ -156,6 +166,7 @@ extension NewWorkoutViewController: UITableViewDelegate {
             
             if let textlabel = header.textLabel {
                 textlabel.font = textlabel.font.withSize(15)
+                textlabel.textColor = .white
             }
         }
     }
@@ -169,7 +180,7 @@ extension NewWorkoutViewController: UITableViewDelegate {
             let sectionTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 10))
             sectionTitle.text = "EXERCISES"
             sectionTitle.font = UIFont.systemFont(ofSize: 15, weight: 0)
-            sectionTitle.textColor = UIColor.darkGray
+            sectionTitle.textColor = .white
             headerView.addSubview(sectionTitle)
             
             editButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: tableView.frame.height))
@@ -200,6 +211,15 @@ extension NewWorkoutViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return false
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0, 1, 2:
+            return 60
+        default:
+            return 44
+        }
     }
     
 }

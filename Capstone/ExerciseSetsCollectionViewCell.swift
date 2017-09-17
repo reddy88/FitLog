@@ -18,8 +18,8 @@ class ExerciseSetsCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func updateViews(set: ExerciseSet) {
-        setWeightLabel.text = "\(set.weight) lbs"
+    func updateViews(set: ExerciseSetActual) {
+        setWeightLabel.text = "\(set.weight) " + SettingsController.shared.weightUnit.rawValue
         setRepsLabel.text = "\(set.reps)"
     }
     

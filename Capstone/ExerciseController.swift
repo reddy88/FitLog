@@ -157,4 +157,13 @@ class ExerciseController {
             break
         }
     }
+    
+    func findExerciseFromWorkoutExercise(_ workoutExercise: WorkoutExercise) -> Exercise? {
+        for exercise in exercises {
+            if exercise.id == workoutExercise.id {
+                return exercise
+            }
+        }
+        return nil
+    }
 }

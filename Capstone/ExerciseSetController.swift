@@ -18,7 +18,7 @@ class ExerciseSetController {
     
     // MARK: - Methods
     
-    func toggleIsComplete(set: ExerciseSet) {
+    func toggleIsComplete(set: ExerciseSetActual) {
         set.isCompleted = !set.isCompleted
         if set.isCompleted {
             NotificationCenter.default.post(name: ExerciseSetController.setComplete, object: nil)
@@ -29,7 +29,7 @@ class ExerciseSetController {
     
     func deleteExerciseSet(_ exerciseSet: ExerciseSet) {
         exerciseSet.managedObjectContext?.delete(exerciseSet)
-        FetchedResultsController.shared.save()
+        //FetchedResultsController.shared.save()
     }
     
 }

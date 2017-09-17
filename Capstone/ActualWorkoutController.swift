@@ -61,9 +61,11 @@ class ActualWorkoutController {
         workoutCopy.tagColor = workout.tagColor
         
         if let workoutExercises = workout.exercises?.array as? [WorkoutExercise] {
-            var workoutExercisesCopy: [WorkoutExercise] = []
+            var workoutExercisesCopy: [WorkoutExerciseActual] = []
             for workoutExercise in workoutExercises {
-                workoutExercisesCopy.append(WorkoutExercise(workoutExercise: workoutExercise))
+                if let copiedWorkoutExercise = WorkoutExerciseController.shared.copyWorkoutExercise(workoutExercise) {
+                    workoutExercisesCopy.append(copiedWorkoutExercise)
+                }
             }
             workoutCopy.exercises = NSOrderedSet(array: workoutExercisesCopy)
         }

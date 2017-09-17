@@ -29,6 +29,8 @@ class NewWorkoutExercisesSelectedViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: WorkoutExerciseAddSetTableViewCell.addedSetNotification, object: nil)
         
         tableView.tableFooterView = UIView()
+        
+        tableView.separatorColor = UIColor(red: 41.0/255.0, green: 35.0/255.0, blue: 66.0/255.0, alpha: 1.0)
     
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)

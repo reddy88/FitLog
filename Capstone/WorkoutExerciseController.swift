@@ -25,7 +25,27 @@ class WorkoutExerciseController {
     
     func removeWorkoutExercise(_ workoutExercise: WorkoutExercise) {
         workoutExercise.managedObjectContext?.delete(workoutExercise)
-        FetchedResultsController.shared.save()
+        //FetchedResultsController.shared.save()
+    }
+    
+    func copyWorkoutExercise(_ workoutExercise: WorkoutExercise) -> WorkoutExerciseActual? {
+        if let baseExercise = ExerciseController.shared.findExerciseFromWorkoutExercise(workoutExercise) {
+            let copy = WorkoutExerciseActual(exercise: baseExercise)
+            
+            copy.restTime = workoutExercise.restTime
+            
+            if let exerciseSets = workoutExercise.sets?.array as? [ExerciseSet] {
+                var exerciseSetsCopy: [ExerciseSetActual] = []
+                for exerciseSet in exerciseSets {
+                    exerciseSetsCopy.append(ExerciseSetActual(reps: Int(exerciseSet.reps), weight: Int(exerciseSet.weight)))
+                }
+                copy.sets = NSOrderedSet(array: exerciseSetsCopy)
+            }
+            
+            return copy
+        }
+        
+        return nil
     }
     
 }

@@ -21,13 +21,26 @@ class WorkoutCompletedController {
     
     // MARK: - Methods
     
-    func createPendingWorkoutCompleted(plannedWorkout: Workout, actualWorkout: ActualWorkout, date: Date = Date()) {
-        let pendingWorkoutCompleted = WorkoutCompleted(plannedWorkout: plannedWorkout, actualWorkout: actualWorkout, date: date)
+    func createPendingWorkoutCompleted(actualWorkout: ActualWorkout, date: Date = Date()) {
+        let pendingWorkoutCompleted = WorkoutCompleted(actualWorkout: actualWorkout, date: date)
         self.pendingWorkoutCompleted = pendingWorkoutCompleted
     }
     
     func addWorkoutCompleted(_ pendingWorkoutCompleted: WorkoutCompleted) {
         workoutsCompleted.append(pendingWorkoutCompleted)
+    }
+    
+    func deleteWorkoutCompleted(_ workoutCompleted: WorkoutCompleted) {
+        workoutCompleted.managedObjectContext?.delete(workoutCompleted)
+        FetchedResultsController.shared.save()
+    }
+    
+    func isValidWorkoutCompleted(_ workoutCompleted: WorkoutCompleted) -> Bool {
+        if workoutCompleted.time == 0 {
+            return false
+        }
+        
+        return true
     }
     
 }

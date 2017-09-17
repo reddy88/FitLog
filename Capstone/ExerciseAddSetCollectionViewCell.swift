@@ -31,15 +31,20 @@ class ExerciseAddSetCollectionViewCell: UICollectionViewCell {
         guard let exerciseSet = exerciseSet, let exerciseSetNumber = exerciseSetNumber else { return }
         setNumberLabel.text = "\(exerciseSetNumber)"
         
-        let attributes = [
+        let weightTextFieldPlaceholderAttributes = [
+            NSForegroundColorAttributeName: UIColor.white,
+            NSFontAttributeName : UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+        ]
+        
+        let repsTextFieldPlaceholderAttributes = [
             NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName : UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
         ]
-        setWeightTextField.attributedPlaceholder = NSAttributedString(string: "lbs", attributes:attributes)
-        setWeightTextField.tintColor = UIColor.clear
+        setWeightTextField.attributedPlaceholder = NSAttributedString(string: SettingsController.shared.weightUnit.rawValue, attributes: weightTextFieldPlaceholderAttributes)
+        setRepsTextField.attributedPlaceholder = NSAttributedString(string: "reps", attributes: repsTextFieldPlaceholderAttributes)
         
         setWeightTextField.text = exerciseSet.weight != 0 ? "\(exerciseSet.weight)" : ""
-        setRepsTextField.text = exerciseSet.weight != 0 ? "\(exerciseSet.reps)" : ""
+        setRepsTextField.text = exerciseSet.reps != 0 ? "\(exerciseSet.reps)" : ""
         
         setWeightTextField.delegate = self
         setRepsTextField.delegate = self
@@ -55,11 +60,11 @@ extension ExerciseAddSetCollectionViewCell: UITextFieldDelegate {
         if textField == setWeightTextField {
             guard let text = setWeightTextField.text, !text.isEmpty, let weight = Int(text) else { return }
             exerciseSet?.weight = Int16(weight)
-            FetchedResultsController.shared.save()
+            //FetchedResultsController.shared.save()
         } else if textField == setRepsTextField {
             guard let text = setRepsTextField.text, !text.isEmpty, let reps = Int(text) else { return }
             exerciseSet?.reps = Int16(reps)
-            FetchedResultsController.shared.save()
+            //FetchedResultsController.shared.save()
         }
     }
 }

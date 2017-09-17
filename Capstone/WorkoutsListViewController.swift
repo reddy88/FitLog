@@ -67,10 +67,22 @@ extension WorkoutsListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "workoutCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "workoutCell", for: indexPath) as? WorkoutListTableViewCell else { return WorkoutListTableViewCell() }
         let workout = WorkoutController.shared.workouts[indexPath.row]
-        cell.textLabel?.text = workout.name
+        cell.updateWith(workout: workout)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let deletedWorkout = WorkoutController.shared.workouts[indexPath.row]
+            WorkoutController.shared.deleteWorkout(workout: deletedWorkout)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     
 }

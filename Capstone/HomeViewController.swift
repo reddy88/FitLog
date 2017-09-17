@@ -39,6 +39,11 @@ class HomeViewController: UIViewController {
             //self.statusBarWindow?.alpha = 0.0
             self.setNeedsStatusBarAppearanceUpdate()
             self.homeView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+            
+            self.homeView.layer.shadowColor = UIColor.white.cgColor
+            self.homeView.layer.shadowOpacity = 1
+            self.homeView.layer.shadowOffset = CGSize.zero
+            self.homeView.layer.shadowRadius = 1
         })
         
         
@@ -71,8 +76,8 @@ class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
-    let menuItems = ["Workouts"]
-    let menuItemImages = [#imageLiteral(resourceName: "dumbell icon")]
+    let menuItems = ["", "LOG", "WORKOUTS"]
+    let menuItemImages = [nil, #imageLiteral(resourceName: "logicon"), #imageLiteral(resourceName: "clipboard")]
     var shouldScrollToBottom = true
     var shouldStatusBarHide = false
     let statusBarWindow = UIApplication.shared.value(forKey: "statusBarWindow") as? UIWindow
@@ -146,7 +151,7 @@ class HomeViewController: UIViewController {
             guard let row = tableView.indexPathForSelectedRow?.row else { return }
             
             let actualWorkout = ActualWorkoutController.shared.copyWorkout(WorkoutController.shared.todaysWorkouts[row])
-            WorkoutCompletedController.shared.createPendingWorkoutCompleted(plannedWorkout: WorkoutController.shared.todaysWorkouts[row], actualWorkout: actualWorkout)
+            WorkoutCompletedController.shared.createPendingWorkoutCompleted(actualWorkout: actualWorkout)
             ActualWorkoutController.shared.selectedWorkout = actualWorkout
         } else if segue.identifier == "toWorkoutsList" {
             
@@ -213,7 +218,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView.tag == 1 {
-            return 44
+            return 70
         }
         
         if indexPath.section == 0 {
@@ -245,10 +250,14 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         (view as! UITableViewHeaderFooterView).backgroundView?.backgroundColor = UIColor(red: 41.0/255.0, green: 35.0/255.0, blue: 66.0/255.0, alpha: 1.0)
     }
     
-    //    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-    //        if indexPath.section ==
-    //        return false
-    //    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.tag == 1 {
+            if indexPath.row == 2 {
+                
+                performSegue(withIdentifier: "toWorkoutsList", sender: nil)
+            }
+        }
+    }
     
 }
 
@@ -261,7 +270,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[section] as? WorkoutExercise, let count = workoutExercise.sets?.count {
+        if let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[section] as? WorkoutExerciseActual, let count = workoutExercise.sets?.count {
             return count + 1
         }
         return 0
@@ -270,15 +279,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "exerciseSetsSectionNameCell", for: indexPath) as? ExerciseSetsSectionNameCollectionViewCell,
-                let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[indexPath.section] as? WorkoutExercise else { return ExerciseSetsSectionNameCollectionViewCell() }
+                let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[indexPath.section] as? WorkoutExerciseActual else { return ExerciseSetsSectionNameCollectionViewCell() }
             
             cell.exerciseNameLabel.text = workoutExercise.name
             return cell
         }
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "exerciseSetsCell", for: indexPath) as? ExerciseSetsCollectionViewCell,
-            let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[indexPath.section] as? WorkoutExercise,
-            let exerciseSet = workoutExercise.sets?[indexPath.item - 1] as? ExerciseSet else { return ExerciseSetsCollectionViewCell() }
+            let workoutExercise = WorkoutCompletedController.shared.workoutsCompleted[collectionView.tag].actualWorkout?.exercises?[indexPath.section] as? WorkoutExerciseActual,
+            let exerciseSet = workoutExercise.sets?[indexPath.item - 1] as? ExerciseSetActual else { return ExerciseSetsCollectionViewCell() }
         cell.setNumberLabel.text = "\(indexPath.item)"
         cell.updateViews(set: exerciseSet)
         return cell

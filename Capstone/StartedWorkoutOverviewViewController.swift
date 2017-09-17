@@ -25,11 +25,11 @@ class StartedWorkoutOverviewViewController: UIViewController {
     @IBAction func doneBarButtonItemTapped(_ sender: Any) {
         
         guard let pendingWorkoutCompleted = WorkoutCompletedController.shared.pendingWorkoutCompleted,
-            let workoutExercises = pendingWorkoutCompleted.actualWorkout?.exercises?.array as? [WorkoutExercise],
+            let workoutExercises = pendingWorkoutCompleted.actualWorkout?.exercises?.array as? [WorkoutExerciseActual],
             let time = pendingWorkoutCompleted.date?.timeIntervalSinceNow else { return }
         
         for workoutExercise in workoutExercises {
-            if let exerciseSets = workoutExercise.sets?.array as? [ExerciseSet] {
+            if let exerciseSets = workoutExercise.sets?.array as? [ExerciseSetActual] {
                 for exerciseSet in exerciseSets {
                     if !exerciseSet.isCompleted {
                         return
@@ -90,7 +90,7 @@ class StartedWorkoutOverviewViewController: UIViewController {
         if segue.identifier == "toExerciseDetail" {
             guard let row = tableView.indexPathForSelectedRow?.row else { return }
             let startedWorkoutExerciseDetailViewController = segue.destination as? StartedWorkoutExerciseDetailViewController
-            startedWorkoutExerciseDetailViewController?.workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[row] as? WorkoutExercise
+            startedWorkoutExerciseDetailViewController?.workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[row] as? WorkoutExerciseActual
             startedWorkoutExerciseDetailViewController?.timerStringFromOverview = timerLabel.text
         }
     }
@@ -121,7 +121,7 @@ extension StartedWorkoutOverviewViewController: UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "startedWorkoutExerciseCell", for: indexPath) as? StartedWorkoutExerciseTableViewCell {
-            let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[indexPath.row] as? WorkoutExercise
+            let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[indexPath.row] as? WorkoutExerciseActual
             cell.workoutExercise = workoutExercise
             cell.frame = tableView.bounds
             cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
@@ -140,7 +140,7 @@ extension StartedWorkoutOverviewViewController: UITableViewDataSource, UITableVi
 extension StartedWorkoutOverviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
+        if let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExerciseActual {
             return workoutExercise.sets?.count ?? 0
         }
         return 0
@@ -148,8 +148,8 @@ extension StartedWorkoutOverviewViewController: UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "startedExerciseSetCell", for: indexPath) as? StartedWorkoutSetCollectionViewCell else { return StartedWorkoutSetCollectionViewCell() }
-        if let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExercise {
-            cell.exerciseSet = workoutExercise.sets?[indexPath.item] as? ExerciseSet
+        if let workoutExercise = ActualWorkoutController.shared.selectedWorkout?.exercises?[collectionView.tag] as? WorkoutExerciseActual {
+            cell.exerciseSet = workoutExercise.sets?[indexPath.item] as? ExerciseSetActual
         }
         cell.exerciseSetNumber = indexPath.item + 1
         return cell

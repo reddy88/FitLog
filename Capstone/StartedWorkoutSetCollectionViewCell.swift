@@ -18,7 +18,7 @@ class StartedWorkoutSetCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var exerciseSet: ExerciseSet?
+    var exerciseSet: ExerciseSetActual?
     var exerciseSetNumber: Int? {
         didSet {
             updateViews()
@@ -30,7 +30,7 @@ class StartedWorkoutSetCollectionViewCell: UICollectionViewCell {
     func updateViews() {
         guard let exerciseSet = exerciseSet, let exerciseSetNumber = exerciseSetNumber else { return }
         setNumberLabel.text = "\(exerciseSetNumber)"
-        setWeightTextField.text = "\(exerciseSet.weight)"
+        setWeightTextField.text = "\(exerciseSet.weight) " + SettingsController.shared.weightUnit.rawValue
         setRepsTextField.text = "\(exerciseSet.reps)"
     }
     

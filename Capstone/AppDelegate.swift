@@ -21,7 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if let workoutsCompleted = FetchedResultsController.shared.fetchedWorkoutCompletedController.fetchedObjects {
-            WorkoutCompletedController.shared.workoutsCompleted = workoutsCompleted
+            
+            for workoutCompleted in workoutsCompleted {
+                if WorkoutCompletedController.shared.isValidWorkoutCompleted(workoutCompleted) {
+                    WorkoutCompletedController.shared.workoutsCompleted.append(workoutCompleted)
+                } else {
+                    WorkoutCompletedController.shared.deleteWorkoutCompleted(workoutCompleted)
+                }
+            }
         }
         
         if let workouts = FetchedResultsController.shared.fetchedWorkoutController.fetchedObjects {

@@ -18,7 +18,7 @@ class StartedWorkoutExerciseTableViewCell: UITableViewCell {
     
     // MARK: - Instance Properties
     
-    var workoutExercise: WorkoutExercise? {
+    var workoutExercise: WorkoutExerciseActual? {
         didSet {
             updateViews()
         }

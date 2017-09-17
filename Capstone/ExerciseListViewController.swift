@@ -13,17 +13,18 @@ class ExerciseListViewController: UIViewController {
     // MARK: - IBOutlets
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var exerciseCategorySegmentedControl: UISegmentedControl!
+    @IBOutlet weak var exerciseCategoryCustomSegmentedControl: CustomSegmentedControl!
     
     // MARK: - IBActions
     
-    @IBAction func exerciseCategorySegmentedControlChanged(_ sender: UISegmentedControl) {
+    @IBAction func exerciseCategoryCustomSegmentedControlChanged(_ sender: CustomSegmentedControl) {
         ExerciseController.shared.changeExerciseCatetoryTo(selectedSegmentIndex: sender.selectedSegmentIndex)
         tableView.reloadData()
     }
     
+    
     @IBAction func cancelBarButtonItemTapped(_ sender: Any) {
-        ExerciseListViewController.lastExerciseCategorySelected = exerciseCategorySegmentedControl.selectedSegmentIndex
+        ExerciseListViewController.lastExerciseCategorySelected = exerciseCategoryCustomSegmentedControl.selectedSegmentIndex
         
         for exercise in exercisesSelected {
             exercise.isSelected = false
@@ -34,7 +35,7 @@ class ExerciseListViewController: UIViewController {
     }
     
     @IBAction func saveBarButtonItemTapped(_ sender: Any) {
-        ExerciseListViewController.lastExerciseCategorySelected = exerciseCategorySegmentedControl.selectedSegmentIndex
+        ExerciseListViewController.lastExerciseCategorySelected = exerciseCategoryCustomSegmentedControl.selectedSegmentIndex
         
         //ExerciseController.shared.exercisesSelected = exercisesSelected
 //        WorkoutExerciseController.shared.exercisesSelected = exercisesSelected.flatMap { WorkoutExercise(exercise: $0) }
@@ -61,7 +62,9 @@ class ExerciseListViewController: UIViewController {
         }
         
         WorkoutController.shared.selectedWorkout?.exercises = NSOrderedSet(array: workoutExercises)
-        FetchedResultsController.shared.save()
+//        if let selectedWorkoutName = WorkoutController.shared.selectedWorkout?.name, !selectedWorkoutName.isEmpty {
+//            FetchedResultsController.shared.save()
+//        }
         ExerciseController.shared.exercisesSelected = exercisesSelected
         exercisesSelected = []
 
@@ -76,6 +79,10 @@ class ExerciseListViewController: UIViewController {
     
     static var lastExerciseCategorySelected = 0
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -84,7 +91,8 @@ class ExerciseListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        exerciseCategorySegmentedControl.selectedSegmentIndex = ExerciseListViewController.lastExerciseCategorySelected
+        exerciseCategoryCustomSegmentedControl.selectedSegmentIndex = ExerciseListViewController.lastExerciseCategorySelected
+        exerciseCategoryCustomSegmentedControl.updateSelector()
         
         if let selectedWorkoutExercises = WorkoutController.shared.selectedWorkout?.exercises?.array as? [WorkoutExercise] {
             for workoutExercise in selectedWorkoutExercises {
@@ -97,7 +105,9 @@ class ExerciseListViewController: UIViewController {
             }
         }
         
-        //exercisesSelected = ExerciseController.shared.exercisesSelected
+        tableView.separatorColor = UIColor(red: 41.0/255.0, green: 35.0/255.0, blue: 66.0/255.0, alpha: 1.0)
+        
+        
     }
     
 }
@@ -120,6 +130,7 @@ extension ExerciseListViewController: UITableViewDataSource, UITableViewDelegate
             cell.accessoryType = .none
         }
         
+        cell.textLabel?.textColor = .white
         cell.textLabel?.text = exercise.name
         
         return cell

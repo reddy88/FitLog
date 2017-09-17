@@ -40,7 +40,7 @@ class NewWorkoutPageViewController: UIViewController {
             }
             
             guard let workout = WorkoutController.shared.selectedWorkout else { return }
-            if isValidWorkout(workout: workout) {
+            if WorkoutController.shared.isValidWorkout(workout: workout) {
                 emptyExercisesSelected()
                 FetchedResultsController.shared.save()
                 navigationController?.popViewController(animated: true)
@@ -86,6 +86,7 @@ class NewWorkoutPageViewController: UIViewController {
         if isMovingFromParentViewController {
             emptyExercisesSelected()
         }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -105,28 +106,6 @@ class NewWorkoutPageViewController: UIViewController {
             exercise.isSelected = false
         }
         ExerciseController.shared.exercisesSelected = []
-    }
-    
-    func isValidWorkout(workout: Workout) -> Bool {
-        guard let name = workout.name, !name.isEmpty else { return false }
-        
-        guard let workoutExercises = workout.exercises?.array as? [WorkoutExercise] else { return false }
-        
-        if !workoutExercises.isEmpty {
-            for exercise in workoutExercises {
-                if exercise.sets?.count == 0 {
-                    return false
-                }
-                guard let sets = exercise.sets?.array as? [ExerciseSet] else { return false }
-                for set in sets {
-                    if set.reps == 0 || set.weight == 0 {
-                        return false
-                    }
-                }
-            }
-        } else { return false }
-        
-        return true
     }
     
     func cancelBarButtonItemTapped() {
@@ -166,8 +145,10 @@ extension NewWorkoutPageViewController: UIPageViewControllerDataSource, UIPageVi
         if (finished && completed) {
             if previousViewControllers[0].isKind(of: NewWorkoutViewController.self) {
                 navigationItem.rightBarButtonItem = nil
+                pageControl.currentPage = 1
             } else {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveBarButtonItemTapped))
+                pageControl.currentPage = 0
 //                navigationItem.rightBarButtonItem?.title = "Save"
 //                navigationItem.rightBarButtonItem?.isEnabled = true
             }

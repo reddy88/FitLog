@@ -22,7 +22,7 @@ class WorkoutExerciseAddSetTableViewCell: UITableViewCell {
         let buttonRow = sender.tag
         
         guard let workoutExercise = WorkoutController.shared.selectedWorkout?.exercises?[buttonRow] as? WorkoutExercise, var sets = workoutExercise.sets?.array as? [ExerciseSet] else { return }
-        sets.append(ExerciseSet(reps: nil, weight: nil))
+        sets.append(ExerciseSet(reps: 0, weight: 0))
         workoutExercise.sets = NSOrderedSet(array: sets)
         collectionView.reloadData()
         NotificationCenter.default.post(name: WorkoutExerciseAddSetTableViewCell.addedSetNotification, object: nil)
@@ -65,7 +65,7 @@ class WorkoutExerciseAddSetTableViewCell: UITableViewCell {
         let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
             guard let text = alertController.textFields?.first?.text, !text.isEmpty, let seconds = Int(text) else { return }
             self.workoutExercise?.restTime = Int16(seconds)
-            FetchedResultsController.shared.save()
+            //FetchedResultsController.shared.save()
         }
         
         alertController.addAction(cancelAction)
