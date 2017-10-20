@@ -23,7 +23,15 @@ class NewWorkoutPageViewController: UIViewController {
                 if let viewController = viewController as? NewWorkoutViewController {
                     
                     guard let workoutNameTableViewCell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? WorkoutNameTableViewCell,
-                        let nameFromTextField = workoutNameTableViewCell.workoutNameTextField.text, !nameFromTextField.isEmpty else { return }
+                        let nameFromTextField = workoutNameTableViewCell.workoutNameTextField.text, !nameFromTextField.isEmpty else {
+                            let alertController = UIAlertController(title: "Invalid Workout", message: "Enter a valid workout name.", preferredStyle: .alert)
+                            
+                            let cancelAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                            
+                            alertController.addAction(cancelAction)
+                            present(alertController, animated: true, completion: nil)
+                            return
+                    }
                     
                     WorkoutController.shared.selectedWorkout?.name = nameFromTextField
                     
@@ -45,9 +53,15 @@ class NewWorkoutPageViewController: UIViewController {
                 FetchedResultsController.shared.save()
                 navigationController?.popViewController(animated: true)
             } else {
+                let alertController = UIAlertController(title: "Invalid Workout", message: "Make sure you have added sets to your exercises.", preferredStyle: .alert)
+                
+                let cancelAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                
+                alertController.addAction(cancelAction)
+                present(alertController, animated: true, completion: nil)
                 return
             }
-        
+            
         }
     }
     
@@ -58,10 +72,10 @@ class NewWorkoutPageViewController: UIViewController {
     var isNewWorkout: Bool = false
     
     // MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         pageContainer = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageContainer.delegate = self
         pageContainer.dataSource = self
@@ -149,8 +163,8 @@ extension NewWorkoutPageViewController: UIPageViewControllerDataSource, UIPageVi
             } else {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveBarButtonItemTapped))
                 pageControl.currentPage = 0
-//                navigationItem.rightBarButtonItem?.title = "Save"
-//                navigationItem.rightBarButtonItem?.isEnabled = true
+                //                navigationItem.rightBarButtonItem?.title = "Save"
+                //                navigationItem.rightBarButtonItem?.isEnabled = true
             }
             
         }

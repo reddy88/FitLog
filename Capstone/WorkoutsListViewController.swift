@@ -73,16 +73,27 @@ extension WorkoutsListViewController: UITableViewDataSource, UITableViewDelegate
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteTableViewRowAction = UITableViewRowAction(style: .destructive, title: "Delete") { (_, indexPath) in
             let deletedWorkout = WorkoutController.shared.workouts[indexPath.row]
             WorkoutController.shared.deleteWorkout(workout: deletedWorkout)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        
+        let runTableViewRowAction = UITableViewRowAction(style: .normal, title: "Start") { (_, indexPath) in
+            let actualWorkout = ActualWorkoutController.shared.copyWorkout(WorkoutController.shared.workouts[indexPath.row])
+            WorkoutCompletedController.shared.createPendingWorkoutCompleted(actualWorkout: actualWorkout)
+            ActualWorkoutController.shared.selectedWorkout = actualWorkout
+            self.performSegue(withIdentifier: "startWorkout", sender: nil)
+        }
+        
+        runTableViewRowAction.backgroundColor = UIColor(red: 56.0/255.0, green: 176.0/255.0, blue: 119.0/255.0, alpha: 1.0)
+        
+        return [runTableViewRowAction, deleteTableViewRowAction]
     }
     
 }

@@ -32,6 +32,12 @@ class StartedWorkoutOverviewViewController: UIViewController {
             if let exerciseSets = workoutExercise.sets?.array as? [ExerciseSetActual] {
                 for exerciseSet in exerciseSets {
                     if !exerciseSet.isCompleted {
+                        let alertController = UIAlertController(title: "Invalid Workout", message: "Please check that you have completed all exercises/sets!", preferredStyle: .alert)
+                        
+                        let cancelAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+
+                        alertController.addAction(cancelAction)
+                        present(alertController, animated: true, completion: nil)
                         return
                     }
                 }

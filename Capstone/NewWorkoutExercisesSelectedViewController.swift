@@ -129,7 +129,7 @@ extension NewWorkoutExercisesSelectedViewController: UITableViewDataSource, UITa
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension NewWorkoutExercisesSelectedViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension NewWorkoutExercisesSelectedViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //return WorkoutExerciseController.shared.exercisesSelected[collectionView.tag].sets.count
@@ -149,6 +149,13 @@ extension NewWorkoutExercisesSelectedViewController: UICollectionViewDelegate, U
 //        cell.updateViews(withExerciseSet: WorkoutExerciseController.shared.exercisesSelected[collectionView.tag].sets[indexPath.item], exerciseSetNumber: indexPath.item + 1)
         return cell
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        if UIDevice.current.orientation == .landscapeLeft ||  UIDevice.current.orientation == .landscapeRight {
+//            return CGSize(width: UIScreen.main.bounds.width / 4.0 - 15.0, height: 29.0)
+//        }
+//        return CGSize(width: 184.0, height: 29.0)
+//    }
     
 }
 

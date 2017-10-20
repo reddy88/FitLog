@@ -54,6 +54,8 @@ class StartedWorkoutExerciseDetailViewController: UIViewController {
         
         title = workoutExercise?.name
         
+        navigationController?.navigationBar.tintColor = .white
+        
     }
     
     // MARK: - Methods

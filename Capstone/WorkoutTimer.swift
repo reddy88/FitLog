@@ -13,7 +13,7 @@ class WorkoutTimer {
     // MARK: - Class Properties
     
     static let shared = WorkoutTimer()
-    static let workoutTimerFired = Notification.Name(rawValue:"workoutTimerFired")
+    static let workoutTimerFired = Notification.Name(rawValue: "workoutTimerFired")
     
     // MARK: - Instance Properties
     

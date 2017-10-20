@@ -14,7 +14,7 @@ class VerticalHorizontalScrollingCollectionViewLayout: UICollectionViewLayout {
 
     var cellAttrsDictionary = Dictionary<IndexPath, UICollectionViewLayoutAttributes>()
     var contentSize = CGSize.zero
-    let cell_width = 179.5
+    let cell_width = Double(UIScreen.main.bounds.width) / 2.0 - 15
     let cell_height = 39.0
     
     override var collectionViewContentSize: CGSize {
